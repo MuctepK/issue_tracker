@@ -19,4 +19,11 @@ class Status(models.Model):
         return self.name
 
 
+class Type(models.Model):
+    name = models.CharField(max_length=20, verbose_name='Название')
+
+    def __str__(self):
+        return self.name
+
+
 
