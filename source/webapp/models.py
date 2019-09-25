@@ -12,4 +12,11 @@ class Issue(models.Model):
         return self.summary[:20]
 
 
+class Status(models.Model):
+    name = models.CharField(max_length=20, verbose_name='Название')
+
+    def __str__(self):
+        return self.name
+
+
 
