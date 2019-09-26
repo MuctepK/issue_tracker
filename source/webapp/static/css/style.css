@@ -108,18 +108,18 @@ h1, h2, h3 {
 .btn-danger:hover {
     box-shadow: rgba(255, 0, 0, 0.8) 0 0 5px;
 }
-.issue{
+.object{
     margin:40px 0;
     border:2px solid #6a7dff;
     border-radius: 8px;
     padding:20px;
 }
-.issue .row .right p{
+.object .row .right p{
     margin:0 10px;
 }
 .fa-trash-alt{
     color: red;
 }
-.issue .text{
+.object .text{
     margin:20px 0;
 }

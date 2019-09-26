@@ -95,7 +95,7 @@ class StatusListView(ListView):
 
 
 class StatusCreateView(CreateView):
-    template_name = 'object_create.html'
+    template_name = 'create.html'
     model = Status
     fields = ['name']
     success_url = reverse_lazy('statuses')

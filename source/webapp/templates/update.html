@@ -3,7 +3,7 @@
     Обновить запись
 {% endblock %}
 {% block content %}
-     <form method="POST" action ="{% url 'issue_update' issue.pk %}">
+     <form method="POST">
     {% include 'partial/form.html' with button_text='Изменить'%}
     </form>
 {% endblock %}
