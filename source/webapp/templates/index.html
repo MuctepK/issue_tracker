@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
 {% block menu %}
-    <li><a href="">Создать задачу</a></li>
+    <li><a href="{% url 'issue_create' %}">Создать задачу</a></li>
 {% endblock %}
 {% block content %}
     <h1>Трекер задач</h1>
