@@ -5,7 +5,7 @@
                 </div>
                 <div class="right col-2 d-flex justify-content-end">
                     <p><a href="{% url 'issue_update' issue.pk %}"><i class="far fa-edit"></i></a></p>
-                    <p><a href=""><i class="far fa-trash-alt"></i></a></p>
+                    <p><a href="{% url 'issue_delete' issue.pk %}"><i class="far fa-trash-alt"></i></a></p>
                 </div>
 
             </div>

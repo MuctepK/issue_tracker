@@ -1,4 +1,8 @@
 {% extends 'base.html' %}
+{% block menu %}
+    <li><a href="{% url 'issue_update' issue.pk %}">Редактировать эту задачу</a></li>
+    <li><a href="{% url 'issue_delete' issue.pk %}">Удалить эту задачу</a></li>
+{% endblock %}
 {% block content %}
     <div class="row">
                 <div class="left col-10 d-flex justify-content-center">
