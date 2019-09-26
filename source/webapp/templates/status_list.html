@@ -2,11 +2,10 @@
 {% load widget_tweaks %}
 {% block menu %}
     <li><a href="{% url 'issue_create' %}">Создать задачу</a></li>
-    <li><a href="{% url 'statuses' %}">Список статусов</a></li>
 {% endblock %}
 {% block content %}
-    <h1>Трекер задач</h1>
-    {% for issue in issues %}
-        {% include 'partial/issue_list.html' %}
+    <h1>Список статусов</h1>
+    {% for status in object_list %}
+        <h4>{{ status.name }}</h4>
     {% endfor %}
 {% endblock %}

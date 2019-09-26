@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from webapp.models import Issue
+from webapp.models import Issue, Status, Type
 from webapp.forms import IssueForm
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from django.views import View
 
 
@@ -85,4 +85,11 @@ class IssueDeleteView(View):
         issue = get_object_or_404(Issue, pk=pk)
         issue.delete()
         return redirect('index')
+
+
+class StatusListView(ListView):
+    model = Status
+    template_name = 'status_list.html'
+
+
 
