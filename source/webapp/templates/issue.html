@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="row">
+                <div class="left col-10 d-flex justify-content-center">
+                    <h5>{{ issue.summary }}</h5>
+                </div>
+            </div>
+    <div class="row my-5">
+                <div class="left col-10 d-flex justify-content-center">
+                    <h5>{{ issue.description }}</h5>
+                </div>
+            </div>
+        <div class="row">
+        <p class="text col-6">Тип задачи:{{ issue.type }}</p>
+            <p class="text col-6">Статус задачи:{{ issue.status }}</p>
+        </div>
+        <p>Дата создания: {{ issue.created_at|date:'Y-m-d H:i:s' }}</p>
+{% endblock %}
