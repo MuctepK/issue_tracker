@@ -1,0 +1,16 @@
+<div class="issue">
+            <div class="row">
+                <div class="left col-10 d-flex justify-content-center">
+                    <h5>{{ issue.summary }}</h5>
+                </div>
+                <div class="right col-2 d-flex justify-content-end">
+                    <p><a href=""><i class="far fa-edit"></i></a></p>
+                    <p><a href=""><i class="far fa-trash-alt"></i></a></p>
+                </div>
+
+            </div>
+        <p class="text">{{ issue.type }}</p>
+            <p class="text">{{ issue.status }}</p>
+        <p>Дата создания: {{ issue.created_at|date:'Y-m-d H:i:s' }}</p>
+
+        </div>
