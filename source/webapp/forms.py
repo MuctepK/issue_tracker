@@ -11,3 +11,4 @@ class IssueForm(forms.Form):
                                       empty_label=None)
     type = forms.ModelChoiceField(queryset=Type.objects.all(), required=True, label='Тип задачи',
                                     empty_label=None)
+

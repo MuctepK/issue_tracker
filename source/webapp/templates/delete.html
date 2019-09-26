@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block title %}Удалить задачу{% endblock %}
 {% block content %}
-    <h3>Вы уверены что хотите удалить задачу :<br>"{{ issue }}"?</h3>
-    <form method="POST" action="{% url "issue_delete" issue.pk %}" class="text-center">
+    <h3>Вы уверены что хотите удалить задачу :<br>"{{ object }}"?</h3>
+    <form method="POST"  class="text-center">
         {% csrf_token %}
         <div class="confirm d-flex justify-content-center">
             <p><input type="submit" value="Да" class="mt-5 btn btn-danger"></p>
