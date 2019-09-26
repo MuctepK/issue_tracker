@@ -4,7 +4,7 @@
                     <h5><a href="{% url 'issue_view' issue.pk %}">{{ issue.summary }}</a></h5>
                 </div>
                 <div class="right col-2 d-flex justify-content-end">
-                    <p><a href=""><i class="far fa-edit"></i></a></p>
+                    <p><a href="{% url 'issue_update' issue.pk %}"><i class="far fa-edit"></i></a></p>
                     <p><a href=""><i class="far fa-trash-alt"></i></a></p>
                 </div>
 
@@ -14,5 +14,4 @@
             <p class="text col-6 align-self-end">Статус задачи: {{ issue.status }}</p>
         </div>
         <p>Дата создания: {{ issue.created_at|date:'Y-m-d H:i:s' }}</p>
-
         </div>

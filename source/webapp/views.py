@@ -38,7 +38,37 @@ class IssueCreateView(View):
                 status=form.cleaned_data['status'],
                 type = form.cleaned_data['type']
             )
-            return redirect('index')
+            return redirect('issue_view', pk=issue.pk)
         else:
             return render(request, 'create.html', context={'form': form})
 
+
+class IssueUpdateView(View):
+    def get(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+        issue = get_object_or_404(Issue, pk=pk)
+        form = IssueForm(data={
+            'summary': issue.summary,
+            'description': issue.description,
+            'status': issue.status_id,
+            'type': issue.type_id,
+
+        })
+        return render(request, 'update.html', context={'form': form,
+                                                       'issue': issue})
+
+    def post(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+        issue = get_object_or_404(Issue, pk=pk)
+        form = IssueForm(data=request.POST)
+        if form.is_valid():
+            issue = Issue.objects.create(
+                summary=form.cleaned_data['summary'],
+                description=form.cleaned_data['description'],
+                status=form.cleaned_data['status'],
+                type = form.cleaned_data['type']
+            )
+            return redirect('issue_view', pk=issue.pk)
+        else:
+            return render(request, 'update.html', context={'form': form,
+                                                           'issue': issue})
