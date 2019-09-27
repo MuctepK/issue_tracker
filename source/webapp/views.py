@@ -91,7 +91,7 @@ class IssueDeleteView(View):
 
 class StatusListView(ListView):
     model = Status
-    template_name = 'status_list.html'
+    template_name = 'status_index.html'
 
 
 class StatusCreateView(CreateView):
@@ -112,4 +112,29 @@ class StatusDeleteView(DeleteView):
     template_name = 'delete.html'
     model = Status
     success_url = reverse_lazy('statuses')
+
+
+class TypeListView(ListView):
+    model = Type
+    template_name = 'type_index.html'
+
+
+class TypeCreateView(CreateView):
+    template_name = 'create.html'
+    model = Type
+    fields = ['name']
+    success_url = reverse_lazy('types')
+
+
+class TypeUpdateView(UpdateView):
+    template_name = 'update.html'
+    model = Type
+    fields = ['name']
+    success_url = reverse_lazy('types')
+
+
+class TypeDeleteView(DeleteView):
+    template_name = 'delete.html'
+    model = Type
+    success_url = reverse_lazy('types')
 

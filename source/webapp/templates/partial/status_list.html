@@ -1,12 +1,4 @@
-{% extends 'base.html' %}
-{% load widget_tweaks %}
-{% block menu %}
-    <li><a href="{% url 'status_create' %}">Создать статус</a></li>
-{% endblock %}
-{% block content %}
-    <h1>Список статусов</h1>
-    {% for object in object_list %}
-        <div class="object">
+<div class="object">
         <div class="row my-5">
                 <div class="left col-8 d-flex justify-content-center">
                     <h5>{{ object.pk }}.{{ object.name }}</h5>
@@ -16,6 +8,4 @@
                     <p class="mr-3"><a href="{% url 'status_delete' object.pk %}"><i class="far fa-trash-alt"></i></a></p>
                 </div>
             </div>
-        </div>
-    {% endfor %}
-{% endblock %}
+</div>
