@@ -27,9 +27,11 @@ class IssueView(TemplateView):
 
 
 class IssueCreateView(View):
+
     def get(self, request, *args, **kwargs):
         form = IssueForm()
-        return render(request, 'create.html', context={'form': form})
+        return render(request, 'create.html', context={'form': form,
+                                                       'title': 'Задачи'})
 
     def post(self, request, *args, **kwargs):
         form = IssueForm(data=request.POST)
@@ -42,7 +44,8 @@ class IssueCreateView(View):
             )
             return redirect('issue_view', pk=issue.pk)
         else:
-            return render(request, 'create.html', context={'form': form})
+            return render(request, 'create.html', context={'form': form,
+                                                           'title': 'Задачи'})
 
 
 class IssueUpdateView(View):
@@ -57,7 +60,8 @@ class IssueUpdateView(View):
 
         })
         return render(request, 'update.html', context={'form': form,
-                                                       'issue': issue})
+                                                       'issue': issue,
+                                                       'title': 'Задачи'})
 
     def post(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
@@ -73,14 +77,16 @@ class IssueUpdateView(View):
             return redirect('issue_view', pk=issue.pk)
         else:
             return render(request, 'update.html', context={'form': form,
-                                                           'issue': issue})
+                                                           'issue': issue,
+                                                           'title': 'Задачи'})
 
 
 class IssueDeleteView(View):
     def get(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
         issue = get_object_or_404(Issue, pk=pk)
-        return render(request, 'delete.html', context={'object': issue})
+        return render(request, 'delete.html', context={'object': issue,
+                                                       'title': 'Задачу'})
 
     def post(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
@@ -96,6 +102,7 @@ class StatusListView(ListView):
 
 class StatusCreateView(CreateView):
     template_name = 'create.html'
+    extra_context = {'title':'Статуса'}
     model = Status
     fields = ['name']
     success_url = reverse_lazy('statuses')
@@ -103,6 +110,7 @@ class StatusCreateView(CreateView):
 
 class StatusUpdateView(UpdateView):
     template_name = 'update.html'
+    extra_context = {'title': 'Статуса'}
     model = Status
     fields = ['name']
     success_url = reverse_lazy('statuses')
@@ -110,6 +118,7 @@ class StatusUpdateView(UpdateView):
 
 class StatusDeleteView(DeleteView):
     template_name = 'delete.html'
+    extra_context = {'title': 'Статуса'}
     model = Status
     success_url = reverse_lazy('statuses')
 
@@ -121,6 +130,7 @@ class TypeListView(ListView):
 
 class TypeCreateView(CreateView):
     template_name = 'create.html'
+    extra_context = {'title': 'Типа'}
     model = Type
     fields = ['name']
     success_url = reverse_lazy('types')
@@ -128,12 +138,14 @@ class TypeCreateView(CreateView):
 
 class TypeUpdateView(UpdateView):
     template_name = 'update.html'
+    extra_context = {'title': 'Типа'}
     model = Type
     fields = ['name']
     success_url = reverse_lazy('types')
 
 
 class TypeDeleteView(DeleteView):
+    extra_context = {'title': 'Типа'}
     template_name = 'delete.html'
     model = Type
     success_url = reverse_lazy('types')

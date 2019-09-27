@@ -3,6 +3,7 @@
     Обновить
 {% endblock %}
 {% block content %}
+    <h1>Изменение {{ title }}</h1>
      <form method="POST">
     {% include 'partial/form.html' with button_text='Изменить'%}
     </form>
