@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Удалить задачу{% endblock %}
+{% block title %}Удалить {{ title }}{% endblock %}
 {% block content %}
     <h3>Вы уверены что хотите удалить {{ title }} :<br>"{{ object }}"?</h3>
     <form method="POST"  class="text-center">

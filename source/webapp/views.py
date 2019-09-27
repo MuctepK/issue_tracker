@@ -1,3 +1,4 @@
+from django.db.models import ProtectedError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 
@@ -5,6 +6,7 @@ from webapp.models import Issue, Status, Type
 from webapp.forms import IssueForm
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView
 from django.views import View
+from django.contrib import messages
 
 
 class IndexView(TemplateView):
@@ -118,10 +120,15 @@ class StatusUpdateView(UpdateView):
 
 class StatusDeleteView(DeleteView):
     template_name = 'delete.html'
-    extra_context = {'title': 'Статуса'}
+    extra_context = {'title': 'Статус'}
     model = Status
     success_url = reverse_lazy('statuses')
 
+    def post(self, request, *args, **kwargs):
+        try:
+            return self.delete(request, *args, **kwargs)
+        except ProtectedError:
+            return render(request, 'partial/error.html')
 
 class TypeListView(ListView):
     model = Type
@@ -145,8 +152,13 @@ class TypeUpdateView(UpdateView):
 
 
 class TypeDeleteView(DeleteView):
-    extra_context = {'title': 'Типа'}
+    extra_context = {'title': 'Тип'}
     template_name = 'delete.html'
     model = Type
     success_url = reverse_lazy('types')
 
+    def post(self, request, *args, **kwargs):
+        try:
+            return self.delete(request, *args, **kwargs)
+        except ProtectedError:
+            return render(request, 'partial/error.html')
