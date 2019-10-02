@@ -10,6 +10,9 @@ class IndexView(ListView):
     template_name = 'issue/index.html'
     model = Issue
     context_object_name = 'issues'
+    paginate_by = 3
+    paginate_orphans = 0
+    page_kwarg = 'page'
 
 
 class IssueView(TemplateView):
