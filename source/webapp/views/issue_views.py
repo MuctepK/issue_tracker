@@ -4,6 +4,7 @@ from webapp.models import Issue
 from webapp.forms import IssueForm
 from django.views.generic import TemplateView, ListView
 from django.views import View
+from .base_views import DetailView
 
 
 class IndexView(ListView):
@@ -15,14 +16,10 @@ class IndexView(ListView):
     page_kwarg = 'page'
 
 
-class IssueView(TemplateView):
+class IssueView(DetailView):
     template_name = 'issue/issue.html'
-
-    def get_context_data(self, **kwargs):
-        pk = kwargs.get('pk')
-        context = super().get_context_data(**kwargs)
-        context['issue'] = get_object_or_404(Issue, pk=pk)
-        return context
+    context_key = 'issue'
+    model = Issue
 
 
 class IssueCreateView(View):
