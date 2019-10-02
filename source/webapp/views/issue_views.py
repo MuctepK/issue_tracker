@@ -1,25 +1,19 @@
-from django.db.models import ProtectedError
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse_lazy
 
-from webapp.models import Issue, Status, Type
+from webapp.models import Issue
 from webapp.forms import IssueForm
-from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import TemplateView, ListView
 from django.views import View
-from django.contrib import messages
 
 
-class IndexView(TemplateView):
-    template_name = 'index.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['issues'] = Issue.objects.all()
-        return context
+class IndexView(ListView):
+    template_name = 'issue/index.html'
+    model = Issue
+    context_object_name = 'issues'
 
 
 class IssueView(TemplateView):
-    template_name = 'issue.html'
+    template_name = 'issue/issue.html'
 
     def get_context_data(self, **kwargs):
         pk = kwargs.get('pk')
@@ -95,70 +89,3 @@ class IssueDeleteView(View):
         issue = get_object_or_404(Issue, pk=pk)
         issue.delete()
         return redirect('index')
-
-
-class StatusListView(ListView):
-    model = Status
-    template_name = 'status_index.html'
-
-
-class StatusCreateView(CreateView):
-    template_name = 'create.html'
-    extra_context = {'title':'Статуса'}
-    model = Status
-    fields = ['name']
-    success_url = reverse_lazy('statuses')
-
-
-class StatusUpdateView(UpdateView):
-    template_name = 'update.html'
-    extra_context = {'title': 'Статуса'}
-    model = Status
-    fields = ['name']
-    success_url = reverse_lazy('statuses')
-
-
-class StatusDeleteView(DeleteView):
-    template_name = 'delete.html'
-    extra_context = {'title': 'Статус'}
-    model = Status
-    success_url = reverse_lazy('statuses')
-
-    def post(self, request, *args, **kwargs):
-        try:
-            return self.delete(request, *args, **kwargs)
-        except ProtectedError:
-            return render(request, 'partial/error.html')
-
-class TypeListView(ListView):
-    model = Type
-    template_name = 'type_index.html'
-
-
-class TypeCreateView(CreateView):
-    template_name = 'create.html'
-    extra_context = {'title': 'Типа'}
-    model = Type
-    fields = ['name']
-    success_url = reverse_lazy('types')
-
-
-class TypeUpdateView(UpdateView):
-    template_name = 'update.html'
-    extra_context = {'title': 'Типа'}
-    model = Type
-    fields = ['name']
-    success_url = reverse_lazy('types')
-
-
-class TypeDeleteView(DeleteView):
-    extra_context = {'title': 'Тип'}
-    template_name = 'delete.html'
-    model = Type
-    success_url = reverse_lazy('types')
-
-    def post(self, request, *args, **kwargs):
-        try:
-            return self.delete(request, *args, **kwargs)
-        except ProtectedError:
-            return render(request, 'partial/error.html')
