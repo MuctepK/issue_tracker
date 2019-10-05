@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from webapp.models import Issue
 from webapp.forms import IssueForm
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, CreateView
 from django.views import View
 from .base_views import DetailView
 
