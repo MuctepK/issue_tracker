@@ -9,6 +9,7 @@ class IssueForm(forms.ModelForm):
         exclude = ['created_at']
 
 
+
 class StatusForm(forms.ModelForm):
     class Meta:
         model = Status

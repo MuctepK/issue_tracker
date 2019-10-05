@@ -15,7 +15,7 @@ class StatusListView(ListView):
 
 class StatusCreateView(CreateView):
     template_name = 'create.html'
-    extra_context = {'title':'Статуса'}
+    extra_context = {'title': 'Статуса'}
     model = Status
     form_class = StatusForm
     success_url = reverse_lazy('statuses')
