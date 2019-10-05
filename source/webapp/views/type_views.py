@@ -4,8 +4,8 @@ from django.urls import reverse_lazy
 
 from webapp.forms import TypeForm
 from webapp.models import Type
-from django.views.generic import ListView, CreateView, DeleteView
-from webapp.views.base_views import UpdateView
+from django.views.generic import ListView, CreateView
+from webapp.views.base_views import UpdateView, DeleteView
 
 
 class TypeListView(ListView):
@@ -33,10 +33,5 @@ class TypeDeleteView(DeleteView):
     extra_context = {'title': 'Тип'}
     template_name = 'delete.html'
     model = Type
-    success_url = reverse_lazy('types')
+    redirect_url = reverse_lazy('types')
 
-    def post(self, request, *args, **kwargs):
-        try:
-            return self.delete(request, *args, **kwargs)
-        except ProtectedError:
-            return render(request, 'partial/error.html')

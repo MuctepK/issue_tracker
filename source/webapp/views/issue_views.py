@@ -4,7 +4,7 @@ from webapp.models import Issue
 from webapp.forms import IssueForm
 from django.views.generic import TemplateView, ListView, CreateView
 from django.views import View
-from .base_views import DetailView, UpdateView
+from .base_views import DetailView, UpdateView, DeleteView
 
 
 class IndexView(ListView):
@@ -36,20 +36,15 @@ class IssueUpdateView(UpdateView):
     form_class = IssueForm
     model = Issue
     template_name = 'update.html'
+    extra_context = {'title': 'Задачи'}
 
     def get_redirect_url(self):
         return reverse('issue_view', kwargs={'pk': self.object.pk})
 
 
-class IssueDeleteView(View):
-    def get(self, request, *args, **kwargs):
-        pk = kwargs.get('pk')
-        issue = get_object_or_404(Issue, pk=pk)
-        return render(request, 'delete.html', context={'object': issue,
-                                                       'title': 'Задачу'})
-
-    def post(self, request, *args, **kwargs):
-        pk = kwargs.get('pk')
-        issue = get_object_or_404(Issue, pk=pk)
-        issue.delete()
-        return redirect('index')
+class IssueDeleteView(DeleteView):
+    model = Issue
+    confirm_delete = True
+    template_name = 'delete.html'
+    redirect_url = 'index'
+    extra_context = {'title': 'Задачу'}
