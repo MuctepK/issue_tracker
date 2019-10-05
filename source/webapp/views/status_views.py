@@ -4,7 +4,8 @@ from django.urls import reverse_lazy
 
 from webapp.forms import StatusForm
 from webapp.models import Status
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, DeleteView
+from webapp.views.base_views import UpdateView
 
 
 class StatusListView(ListView):
@@ -24,8 +25,8 @@ class StatusUpdateView(UpdateView):
     template_name = 'update.html'
     extra_context = {'title': 'Статуса'}
     model = Status
-    fields = ['name']
-    success_url = reverse_lazy('statuses')
+    form_class = StatusForm
+    redirect_url = reverse_lazy('statuses')
 
 
 class StatusDeleteView(DeleteView):
