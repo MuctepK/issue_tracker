@@ -1,6 +1,8 @@
 from django.db.models import ProtectedError
 from django.shortcuts import render
 from django.urls import reverse_lazy
+
+from webapp.forms import TypeForm
 from webapp.models import Type
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
@@ -14,7 +16,7 @@ class TypeCreateView(CreateView):
     template_name = 'create.html'
     extra_context = {'title': 'Типа'}
     model = Type
-    fields = ['name']
+    form_class = TypeForm
     success_url = reverse_lazy('types')
 
 

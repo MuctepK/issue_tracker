@@ -1,6 +1,8 @@
 from django.db.models import ProtectedError
 from django.shortcuts import render
 from django.urls import reverse_lazy
+
+from webapp.forms import StatusForm
 from webapp.models import Status
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
@@ -14,7 +16,7 @@ class StatusCreateView(CreateView):
     template_name = 'create.html'
     extra_context = {'title':'Статуса'}
     model = Status
-    fields = ['name']
+    form_class = StatusForm
     success_url = reverse_lazy('statuses')
 
 
