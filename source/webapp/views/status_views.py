@@ -34,3 +34,4 @@ class StatusDeleteView(DeleteView):
     extra_context = {'title': 'Статус'}
     model = Status
     redirect_url = reverse_lazy('statuses')
+    failure_template_name = 'partial/error.html'

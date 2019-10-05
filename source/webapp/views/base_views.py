@@ -1,3 +1,4 @@
+from django.db.models import ProtectedError
 from django.views.generic import TemplateView, View
 from django.shortcuts import get_object_or_404, render, redirect
 
@@ -56,6 +57,7 @@ class DeleteView(View):
     redirect_url = None
     key_kwarg = 'pk'
     extra_context = None
+    failure_template_name = None
 
     def get_object(self):
         pk = self.kwargs.get(self.key_kwarg)
@@ -66,13 +68,16 @@ class DeleteView(View):
         if self.confirm_delete:
             return render(request, self.template_name, context={'object': self.object, **self.extra_context})
         else:
-            return self.delete_object()
+            return self.delete_object(request)
 
-    def post(self, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        return self.delete_object()
+        return self.delete_object(request)
 
-    def delete_object(self):
-        self.object.delete()
-        return redirect(self.redirect_url)
+    def delete_object(self, request):
+        try:
+            self.object.delete()
+            return redirect(self.redirect_url)
+        except ProtectedError:
+            return render(request, self.failure_template_name)
 

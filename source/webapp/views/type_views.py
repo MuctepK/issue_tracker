@@ -34,4 +34,4 @@ class TypeDeleteView(DeleteView):
     template_name = 'delete.html'
     model = Type
     redirect_url = reverse_lazy('types')
-
+    failure_template_name = 'partial/error.html'
