@@ -1,6 +1,6 @@
 from django.urls import reverse, reverse_lazy
 from webapp.models import Project
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, DetailView
 from webapp.forms import ProjectForm
 
 
@@ -12,6 +12,12 @@ class ProjectListView(ListView):
     paginate_orphans = 0
     page_kwarg = 'page'
     ordering = ['-created_at']
+
+
+class ProjectDetailView(DetailView):
+    template_name = 'project/project.html'
+    context_key = 'project'
+    model = Project
 
 
 class ProjectCreateView(CreateView):

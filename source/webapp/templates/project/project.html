@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block menu %}
+    <li><a href="">Редактировать этот проект</a></li>
+    <li><a href="">Удалить этот проект</a></li>
+{% endblock %}
+{% block content %}
+    <div class="row">
+                <div class="left col-10 d-flex justify-content-center">
+                    <h5>{{ project.name }}</h5>
+                </div>
+            </div>
+    <div class="row my-5">
+                <div class="left col-10 d-flex justify-content-center">
+                    <h5>{{ project.description }}</h5>
+                </div>
+            </div>
+        <div class="row">
+         <p class="text col-6">Дата создания: {{ project.created_at|date:'Y-m-d H:i:s' }}</p>
+         <p class="text col-6 align-self-end">Дата изменения: {{ project.updated_at|date:'Y-m-d H:i:s' }}</p>
+        </div>
+    <p>Статус проекта: {{ project.status }}</p>
+
+{% endblock %}
