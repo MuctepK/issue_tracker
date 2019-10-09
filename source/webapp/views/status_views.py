@@ -4,8 +4,7 @@ from django.urls import reverse_lazy
 
 from webapp.forms import StatusForm
 from webapp.models import Status
-from django.views.generic import ListView, CreateView
-from webapp.views.base_views import UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
 
 class StatusListView(ListView):
@@ -25,13 +24,18 @@ class StatusUpdateView(UpdateView):
     template_name = 'update.html'
     extra_context = {'title': 'Статуса'}
     model = Status
-    form_class = StatusForm
-    redirect_url = reverse_lazy('statuses')
+    fields = ['name']
+    success_url = reverse_lazy('statuses')
 
 
 class StatusDeleteView(DeleteView):
     template_name = 'delete.html'
     extra_context = {'title': 'Статус'}
     model = Status
-    redirect_url = reverse_lazy('statuses')
-    failure_template_name = 'partial/error.html'
+    success_url = reverse_lazy('statuses')
+
+    def post(self, request, *args, **kwargs):
+        try:
+            return self.delete(request, *args, **kwargs)
+        except ProtectedError:
+            return render(request, 'partial/error.html')
