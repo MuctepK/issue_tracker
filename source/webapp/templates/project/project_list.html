@@ -1,0 +1,15 @@
+<div class="object">
+            <div class="row">
+                <div class="left col-10 d-flex justify-content-center">
+                    <h5><a href="">{{ project.name }}</a></h5>
+                </div>
+                <div class="right col-2 d-flex justify-content-end">
+                    <p><a href=""><i class="far fa-edit"></i></a></p>
+                    <p><a href=""><i class="far fa-trash-alt"></i></a></p>
+                </div>
+            </div>
+        <div class="row d-flex  mt-5">
+        <p class="text col-6">Дата создания: {{ project.created_at|date:'Y-m-d H:i:s' }}</p>
+            <p class="text col-6 align-self-end">Дата изменения: {{ project.updated_at|date:'Y-m-d H:i:s' }}</p>
+        </div>
+        </div>

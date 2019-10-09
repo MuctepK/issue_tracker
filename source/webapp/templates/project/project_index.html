@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
 {% block menu %}
-    <li><a href="{% url 'issue_create' %}">Создать задачу</a></li>
-    <li><a href="{% url 'projects' %}">Список проектов</a></li>
+    <li><a href="">Создать проект</a></li>
+    <li><a href="{% url 'index' %}">Список задач</a></li>
     <li><a href="{% url 'statuses' %}">Список статусов</a></li>
     <li><a href="{% url 'types' %}">Список типов</a></li>
 {% endblock %}
 {% block content %}
-    <h1>Трекер задач</h1>
-    {% for issue in issues %}
-        {% include 'issue/issue_list.html' %}
+    <h1>Трекер проектов</h1>
+    {% for project in projects %}
+        {% include 'project/project_list.html' %}
     {% endfor %}
     {% include 'partial/paginator.html' %}
 {% endblock %}
