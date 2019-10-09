@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block menu %}
     <li><a href="{% url 'project_update' project.pk %}">Редактировать этот проект</a></li>
-    <li><a href="">Удалить этот проект</a></li>
+    <li><a href="{% url 'project_delete' project.pk %}">Удалить этот проект</a></li>
 {% endblock %}
 {% block content %}
     <div class="row">

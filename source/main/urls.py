@@ -18,7 +18,7 @@ from django.urls import path
 from webapp.views import IndexView, IssueCreateView, IssueView, IssueUpdateView, IssueDeleteView, \
     StatusListView, StatusCreateView, StatusDeleteView, StatusUpdateView, TypeListView, TypeCreateView, \
     TypeDeleteView, TypeUpdateView, ProjectListView, ProjectCreateView, ProjectDetailView, \
-    ProjectUpdateView
+    ProjectUpdateView, ProjectDeleteView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -38,6 +38,7 @@ urlpatterns = [
     path('projects/', ProjectListView.as_view(), name='projects'),
     path('project/create/', ProjectCreateView.as_view(), name='project_create'),
     path('project/<int:pk>/', ProjectDetailView.as_view(), name='project_view'),
-    path('project/update/<int:pk>/', ProjectUpdateView.as_view(), name='project_update')
+    path('project/update/<int:pk>/', ProjectUpdateView.as_view(), name='project_update'),
+    path('project/delete/<int:pk>/', ProjectDeleteView.as_view(), name='project_delete')
 
 ]
