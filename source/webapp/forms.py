@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import widgets
-from webapp.models import Issue, Status, Type
+from webapp.models import Issue, Status, Type, Project
 
 
 class IssueForm(forms.ModelForm):
@@ -8,6 +8,11 @@ class IssueForm(forms.ModelForm):
         model = Issue
         exclude = ['created_at']
 
+
+class ProjectForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        exclude = ['created_at', 'updated_at']
 
 
 class StatusForm(forms.ModelForm):
