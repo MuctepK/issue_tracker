@@ -1,5 +1,6 @@
+from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
-from webapp.models import Project
+from webapp.models import Project, PROJECT_DEFAULT_STATUS
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from webapp.forms import ProjectForm
 
@@ -18,6 +19,7 @@ class ProjectDetailView(DetailView):
     template_name = 'project/project.html'
     context_key = 'project'
     model = Project
+
 
 
 class ProjectCreateView(CreateView):
@@ -42,4 +44,15 @@ class ProjectDeleteView(DeleteView):
     model = Project
     template_name = 'delete.html'
     success_url = reverse_lazy('projects')
-    extra_context = {'title': 'Проект'}
+    extra_context = {'title': 'закрыть Проект'}
+
+    def delete(self, request, *args, **kwargs):
+        """
+        Call the delete() method on the fetched object and then redirect to the
+        success URL.
+        """
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        self.object.status = 'closed'
+        self.object.save()
+        return HttpResponseRedirect(success_url)

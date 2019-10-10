@@ -29,7 +29,7 @@ class TypeUpdateView(UpdateView):
 
 
 class TypeDeleteView(DeleteView):
-    extra_context = {'title': 'Тип'}
+    extra_context = {'title': 'удалить Тип'}
     template_name = 'delete.html'
     model = Type
     success_url = reverse_lazy('types')

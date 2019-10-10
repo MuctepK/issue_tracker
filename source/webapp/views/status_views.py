@@ -22,7 +22,7 @@ class StatusCreateView(CreateView):
 
 class StatusUpdateView(UpdateView):
     template_name = 'update.html'
-    extra_context = {'title': 'Статуса'}
+    extra_context = {'title': 'удалить Статус'}
     model = Status
     fields = ['name']
     success_url = reverse_lazy('statuses')

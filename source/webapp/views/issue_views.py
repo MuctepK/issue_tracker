@@ -45,4 +45,4 @@ class IssueDeleteView(DeleteView):
     model = Issue
     template_name = 'delete.html'
     success_url = reverse_lazy('index')
-    extra_context = {'title': 'Задачу'}
+    extra_context = {'title': 'удалить Задачу'}

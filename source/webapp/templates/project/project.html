@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block menu %}
+    <li><a href="{% url 'projects' %}">Список проектов</a></li>
     <li><a href="{% url 'project_update' project.pk %}">Редактировать этот проект</a></li>
     <li><a href="{% url 'project_delete' project.pk %}">Удалить этот проект</a></li>
 {% endblock %}
@@ -18,6 +19,6 @@
          <p class="text col-6">Дата создания: {{ project.created_at|date:'Y-m-d H:i:s' }}</p>
          <p class="text col-6 align-self-end">Дата изменения: {{ project.updated_at|date:'Y-m-d H:i:s' }}</p>
         </div>
-    <p>Статус проекта: {{ project.status }}</p>
+    <p>Статус проекта: {{ project.get_status_display }}</p>
 
 {% endblock %}
