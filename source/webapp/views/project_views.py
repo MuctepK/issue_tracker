@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from webapp.models import Project, PROJECT_DEFAULT_STATUS
@@ -20,6 +21,21 @@ class ProjectDetailView(DetailView):
     context_key = 'project'
     model = Project
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        project = self.object
+        issues = project.issues.order_by('-created_at')
+        self.paginate_comments_to_context(issues, context)
+        return context
+
+    def paginate_comments_to_context(self, issues, context):
+        paginator = Paginator(issues, 2, 0)
+        page_number = self.request.GET.get('page', 1)
+        page = paginator.get_page(page_number)
+        context['paginator'] = paginator
+        context['page_obj'] = page
+        context['issues'] = page.object_list
+        context['is_paginated'] = page.has_other_pages()
 
 
 class ProjectCreateView(CreateView):

@@ -20,5 +20,15 @@
          <p class="text col-6 align-self-end">Дата изменения: {{ project.updated_at|date:'Y-m-d H:i:s' }}</p>
         </div>
     <p>Статус проекта: {{ project.get_status_display }}</p>
+    <h3>Задачи к этому проекту</h3>
+    {% for issue in issues %}
+        {% include "issue/issue_list.html" %}
+         {% empty %}
+        <h4 class ="my-5 text-center">К этому проекту еще не добавили задач...</h4>
+    {% endfor %}
+
+     {% if is_paginated %}
+        {% include 'partial/paginator.html' %}
+    {% endif %}
 
 {% endblock %}

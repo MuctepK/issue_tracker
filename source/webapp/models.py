@@ -16,7 +16,7 @@ class Issue(models.Model):
     type = models.ForeignKey('webapp.Type', on_delete=models.PROTECT, blank=False, default=DEFAULT_TYPE_ID,
                              verbose_name='Тип', related_name='issues')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
-    project = models.ForeignKey('webapp.Project', on_delete=models.CASCADE, blank=False, null=True, related_name='issue')
+    project = models.ForeignKey('webapp.Project', on_delete=models.CASCADE, blank=False, null=True, related_name='issues')
 
     def __str__(self):
         return self.summary[:20]
