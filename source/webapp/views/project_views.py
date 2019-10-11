@@ -1,5 +1,5 @@
 from django.core.paginator import Paginator
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseNotFound, Http404
 from django.urls import reverse, reverse_lazy
 from webapp.models import Project, PROJECT_DEFAULT_STATUS
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
@@ -20,6 +20,14 @@ class ProjectDetailView(DetailView):
     template_name = 'project/project.html'
     context_key = 'project'
     model = Project
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.status == 'closed':
+            raise Http404('Указанный проект не найден...')
+        else:
+            context = self.get_context_data(object=self.object)
+            return self.render_to_response(context)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
