@@ -129,6 +129,39 @@
   }
 },
 {
+  "model": "webapp.project",
+  "pk": 4,
+  "fields": {
+    "name": "My new First Project xDDD",
+    "description": "Molestie a iaculis at erat pellentesque adipiscing commodo. Donec adipiscing tristique risus nec feugiat in. Tempor orci dapibus ultrices in iaculis. Volutpat est velit egestas dui id. Non tellus orci ac auctor augue mauris augue neque gravida. Donec ac odio tempor orci dapibus ultrices. Risus nec feugiat in fermentum posuere urna nec tincidunt praesent. Bibendum ut tristique et egestas quis ipsum suspendisse. Id consectetur purus ut faucibus pulvinar elementum integer. Rhoncus est pellentesque elit ullamcorper dignissim cras tincidunt lobortis. Posuere morbi leo urna molestie at elementum eu.",
+    "created_at": "2019-10-09T14:19:39.767Z",
+    "updated_at": "2019-10-09T15:01:27.171Z",
+    "status": "closed"
+  }
+},
+{
+  "model": "webapp.project",
+  "pk": 7,
+  "fields": {
+    "name": "New but closed project",
+    "description": "TEXTEXTETEXTEXTETXE",
+    "created_at": "2019-10-11T10:34:51.791Z",
+    "updated_at": "2019-10-11T10:35:01.057Z",
+    "status": "closed"
+  }
+},
+{
+  "model": "webapp.project",
+  "pk": 8,
+  "fields": {
+    "name": "Closed project N3",
+    "description": "",
+    "created_at": "2019-10-11T10:36:23.853Z",
+    "updated_at": "2019-10-11T10:36:23.853Z",
+    "status": "closed"
+  }
+},
+{
   "model": "webapp.status",
   "pk": 1,
   "fields": {
