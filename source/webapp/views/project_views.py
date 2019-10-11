@@ -9,11 +9,12 @@ from webapp.forms import ProjectForm
 class ProjectListView(ListView):
     model = Project
     template_name = 'project/project_index.html'
-    context_object_name = 'projects'
-    paginate_by = 3
-    paginate_orphans = 0
-    page_kwarg = 'page'
-    ordering = ['-created_at']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['active_projects'] = self.model.objects.all().filter(status='active').order_by('-created_at')
+        context['closed_projects'] = self.model.objects.all().filter(status='closed').order_by('-created_at')
+        return context
 
 
 class ProjectDetailView(DetailView):
@@ -23,11 +24,10 @@ class ProjectDetailView(DetailView):
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
-        if self.object.status == 'closed':
+        if self.object.status != PROJECT_DEFAULT_STATUS:
             raise Http404('Указанный проект не найден...')
         else:
-            context = self.get_context_data(object=self.object)
-            return self.render_to_response(context)
+            return super().get(self, request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -60,8 +60,18 @@ class ProjectUpdateView(UpdateView):
     template_name = 'update.html'
     extra_context = {'title': 'Проекта'}
 
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.status != PROJECT_DEFAULT_STATUS:
+            raise Http404('Указанный проект не найден...')
+        else:
+            return super().get(self,request, *args, **kwargs)
+
     def get_success_url(self):
-        return reverse('project_view', kwargs={'pk': self.object.pk})
+        if self.object.status == PROJECT_DEFAULT_STATUS:
+            return reverse('project_view', kwargs={'pk': self.object.pk})
+        else:
+            return reverse('projects')
 
 
 class ProjectDeleteView(DeleteView):
@@ -69,6 +79,13 @@ class ProjectDeleteView(DeleteView):
     template_name = 'delete.html'
     success_url = reverse_lazy('projects')
     extra_context = {'title': 'закрыть Проект'}
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.status != PROJECT_DEFAULT_STATUS:
+            raise Http404('Указанный проект не найден...')
+        else:
+            return super().get(self,request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
         """

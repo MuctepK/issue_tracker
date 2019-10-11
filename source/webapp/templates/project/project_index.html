@@ -5,8 +5,18 @@
 {% endblock %}
 {% block content %}
     <h1>Трекер проектов</h1>
-    {% for project in projects %}
-        {% include 'project/project_list.html' %}
-    {% endfor %}
-    {% include 'partial/paginator.html' %}
+    <div class="row">
+        <div class="col-6 w-100">
+            <h3>Открытые проекты</h3>
+            {% for project in active_projects %}
+                {% include 'project/project_list.html' %}
+            {% endfor %}
+        </div>
+        <div class="col-6">
+            <h3>Закрытые проекты</h3>
+        {% for project in closed_projects %}
+            {% include 'project/project_list.html' %}
+        {% endfor %}
+        </div>
+    </div>
 {% endblock %}
