@@ -1,18 +1,24 @@
+from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from webapp.models import Issue
-from webapp.forms import IssueForm
+from webapp.forms import IssueForm, SimpleSearchForm
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView, DetailView
+from webapp.views.base_views import SearchView
 
 
-class IndexView(ListView):
+class IndexView(SearchView):
     template_name = 'issue/index.html'
     model = Issue
     context_object_name = 'issues'
-    paginate_by = 3
+    paginate_by = 2
     paginate_orphans = 0
     page_kwarg = 'page'
     ordering = ['-created_at']
+    search_form = SimpleSearchForm
+
+    def get_filters(self):
+        return Q(summary__icontains=self.search_value) | Q(description__icontains=self.search_value)
 
 
 class IssueView(DetailView):

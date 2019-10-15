@@ -7,6 +7,7 @@
     <li><a href="{% url 'types' %}">Список типов</a></li>
 {% endblock %}
 {% block content %}
+    {% include 'partial/search_form.html' %}
     <h1>Трекер задач</h1>
     {% for issue in issues %}
         {% include 'issue/issue_list.html' %}

@@ -1,20 +1,27 @@
 from django.core.paginator import Paginator
+from django.db.models import Q
 from django.http import HttpResponseRedirect, HttpResponseNotFound, Http404
 from django.urls import reverse, reverse_lazy
 from webapp.models import Project, PROJECT_DEFAULT_STATUS
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
-from webapp.forms import ProjectForm
+from webapp.forms import ProjectForm, SimpleSearchForm
+from webapp.views.base_views import SearchView
 
 
-class ProjectListView(ListView):
+class ProjectListView(SearchView):
     model = Project
     template_name = 'project/project_index.html'
+    search_form = SimpleSearchForm
+    ordering = ['-created_at']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['active_projects'] = self.model.objects.all().filter(status='active').order_by('-created_at')
-        context['closed_projects'] = self.model.objects.all().filter(status='closed').order_by('-created_at')
+        context['active_projects'] = self.get_queryset().filter(status='active')
+        context['closed_projects'] = self.get_queryset().filter(status='closed')
         return context
+
+    def get_filters(self):
+        return Q(name__icontains=self.search_value)
 
 
 class ProjectDetailView(DetailView):
