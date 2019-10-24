@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
@@ -11,7 +12,7 @@ class IndexView(SearchView):
     template_name = 'issue/index.html'
     model = Issue
     context_object_name = 'issues'
-    paginate_by = 2
+    paginate_by = 4
     paginate_orphans = 0
     page_kwarg = 'page'
     ordering = ['-created_at']
@@ -27,7 +28,7 @@ class IssueView(DetailView):
     model = Issue
 
 
-class IssueCreateView(CreateView):
+class IssueCreateView(LoginRequiredMixin,CreateView):
     form_class = IssueForm
     model = Issue
     template_name = 'create.html'
@@ -37,7 +38,7 @@ class IssueCreateView(CreateView):
         return reverse('issue_view', kwargs={'pk': self.object.pk})
 
 
-class IssueUpdateView(UpdateView):
+class IssueUpdateView(LoginRequiredMixin, UpdateView):
     form_class = IssueForm
     model = Issue
     template_name = 'update.html'
@@ -47,7 +48,7 @@ class IssueUpdateView(UpdateView):
         return reverse('issue_view', kwargs={'pk': self.object.pk})
 
 
-class IssueDeleteView(DeleteView):
+class IssueDeleteView(LoginRequiredMixin, DeleteView):
     model = Issue
     template_name = 'delete.html'
     success_url = reverse_lazy('index')

@@ -16,6 +16,11 @@
    <div class="container">
        <ul class="menu">
            <li><a href="{% url 'index' %}">Главная</a></li>
+       {% if user.is_authenticated %}
+       <li><a href="{% url 'accounts:logout' %}">Выйти</a></li>
+       {% else %}
+       <li><a href="{% url 'accounts:login' %}">Войти</a></li>
+       {% endif  %}
           {% block menu %}{% endblock %}
        </ul>
    </div>

@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import ProtectedError
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -12,7 +13,7 @@ class TypeListView(ListView):
     template_name = 'type/type_index.html'
 
 
-class TypeCreateView(CreateView):
+class TypeCreateView(LoginRequiredMixin, CreateView):
     template_name = 'create.html'
     extra_context = {'title': 'Типа'}
     model = Type
@@ -20,7 +21,7 @@ class TypeCreateView(CreateView):
     success_url = reverse_lazy('types')
 
 
-class TypeUpdateView(UpdateView):
+class TypeUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
     extra_context = {'title': 'Типа'}
     model = Type
@@ -28,7 +29,7 @@ class TypeUpdateView(UpdateView):
     success_url = reverse_lazy('types')
 
 
-class TypeDeleteView(DeleteView):
+class TypeDeleteView(LoginRequiredMixin, DeleteView):
     extra_context = {'title': 'удалить Тип'}
     template_name = 'delete.html'
     model = Type

@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import ProtectedError
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -12,7 +13,7 @@ class StatusListView(ListView):
     template_name = 'status/status_index.html'
 
 
-class StatusCreateView(CreateView):
+class StatusCreateView(LoginRequiredMixin, CreateView):
     template_name = 'create.html'
     extra_context = {'title': 'Статуса'}
     model = Status
@@ -20,7 +21,7 @@ class StatusCreateView(CreateView):
     success_url = reverse_lazy('statuses')
 
 
-class StatusUpdateView(UpdateView):
+class StatusUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
     extra_context = {'title': 'удалить Статус'}
     model = Status
@@ -28,7 +29,7 @@ class StatusUpdateView(UpdateView):
     success_url = reverse_lazy('statuses')
 
 
-class StatusDeleteView(DeleteView):
+class StatusDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'delete.html'
     extra_context = {'title': 'Статус'}
     model = Status

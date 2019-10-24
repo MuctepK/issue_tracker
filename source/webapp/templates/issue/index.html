@@ -2,9 +2,17 @@
 {% load widget_tweaks %}
 {% block menu %}
     <li><a href="{% url 'issue_create' %}">Создать задачу</a></li>
-    <li><a href="{% url 'projects' %}">Список проектов</a></li>
-    <li><a href="{% url 'statuses' %}">Список статусов</a></li>
-    <li><a href="{% url 'types' %}">Список типов</a></li>
+    <li><div class="btn-group">
+  <button type="button" class="btn btn-danger">Списки</button>
+  <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <span class="sr-only">Toggle Dropdown</span>
+  </button>
+  <div class="dropdown-menu">
+    <a class="dropdown-item" href="{% url 'projects' %}">Список проектов</a>
+    <a class="dropdown-item" href="{% url 'statuses' %}">Список статусов</a>
+    <a class="dropdown-item" href="{% url 'types' %}">Список типов</a>
+  </div>
+</div></li>
 {% endblock %}
 {% block content %}
     {% include 'partial/search_form.html' %}
