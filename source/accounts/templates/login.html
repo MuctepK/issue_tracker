@@ -1,19 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
     <h1>Вход</h1>
-    <form action="{% url 'accounts:login' %}" method="post" class="text-center">
-        {% csrf_token %}
+    <form class="px-4 py-3 w-50 mx-auto" action="{% url 'accounts:login' %}" method="post">
+    {% csrf_token %}
         {% if has_error %}
             <p class="form-error">Неверное имя пользователя или пароль.</p>
         {% endif %}
         <div class="form-group">
-            <label for="username" class="form-label">Имя пользователя:</label>
-            <input type="text" name="username" id="username">
-        </div>
-        <div class="form-group">
-            <label for="password" class="form-label">Пароль:</label>
-            <input type="password" name="password" id="password">
-        </div>
-        <button type="submit">Войти</button>
-    </form>
+      <label for="login_input">Email address</label>
+      <input type="text" class="form-control" name="username" id="login_input" placeholder="Username">
+    </div>
+    <div class="form-group">
+      <label for="exampleDropdownFormPassword1">Password</label>
+      <input type="password" class="form-control" name="password" id="exampleDropdownFormPassword1" placeholder="Password">
+    </div>
+    <input type="hidden" name="redirect_url" value="{{ redirect_url }}"/>
+    <button type="submit" class="btn mx-auto btn-primary">Sign in</button>
+  </form>
 {% endblock %}
