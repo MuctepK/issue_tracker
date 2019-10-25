@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
 {% block menu %}
+    {% if user.is_authenticated %}
     <li><a href="{% url 'status_create' %}">Создать статус</a></li>
+    {% endif %}
 {% endblock %}
 {% block content %}
     <h1>Список статусов</h1>

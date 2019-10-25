@@ -1,21 +1,25 @@
 <div class="object">
             <div class="row">
                 {% if project.status == 'active' %}
-                <div class="left col-10 d-flex justify-content-center">
+                    {% if user.is_authenticated %}
+                        <div class="left col-10 d-flex justify-content-center">
                     <h5><a href="{% url 'project_view' project.pk %}">{{ project.name }}</a></h5>
                 </div>
-                {% else %}
-                <div class="left col-12 d-flex justify-content-center">
-                    <h5>{{ project.name }}</h5>
-                </div>
-                {% endif %}
-                {% if project.status == 'active' %}
                 <div class="right col-2 d-flex justify-content-end">
 
                     <p><a href="{% url 'project_update' project.pk %}"><i class="far fa-edit"></i></a></p>
                     <p><a href="{% url 'project_delete' project.pk %}"><i class="far fa-trash-alt"></i></a></p>
-
+                        </div>
+                        {% else %}
+                         <div class="left col-12 d-flex justify-content-center">
+                    <h5><a href="{% url 'project_view' project.pk %}">{{ project.name }}</a></h5>
                 </div>
+                {% endif %}
+                    {% else %}
+                    <div class="left col-12 d-flex justify-content-center">
+                    <h5>{{ project.name }}</h5>
+                    </div>
+
                 {% endif %}
             </div>
         <div class="row d-flex  mt-5">

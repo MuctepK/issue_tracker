@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 {% block menu %}
+    {% if user.is_authenticated %}
     <li><a href="{% url 'issue_update' issue.pk %}">Редактировать эту задачу</a></li>
     <li><a href="{% url 'issue_delete' issue.pk %}">Удалить эту задачу</a></li>
+    {% endif %}
 {% endblock %}
 {% block content %}
     <div class="row">

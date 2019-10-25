@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
 {% block menu %}
+    {% if user.is_authenticated %}
     <li><a href="{% url 'type_create' %}">Создать тип</a></li>
+    {% endif %}
 {% endblock %}
 {% block content %}
     <h1>Список типов</h1>
