@@ -78,7 +78,7 @@
     "summary": "\u0421\u0431\u043e\u0440 \u0434\u0430\u043d\u043d\u044b\u0445 \u0434\u043b\u044f \u043f\u0440\u043e\u0435\u043a\u0442\u0430 \u043e\u0442\u043a\u0440\u044b\u0442\u044b\u0445 \u0434\u0430\u043d\u043d\u044b\u0445",
     "description": "Feugiat nibh sed pulvinar proin gravida hendrerit lectus. Massa enim nec dui nunc mattis enim. Accumsan sit amet nulla facilisi morbi tempus iaculis urna id. Porttitor lacus luctus accumsan tortor. Pellentesque adipiscing commodo elit at imperdiet. Velit scelerisque in dictum non. Neque gravida in fermentum et sollicitudin ac orci phasellus egestas. Tristique senectus et netus et. Integer feugiat scelerisque varius morbi enim nunc faucibus a pellentesque. Nulla facilisi morbi tempus iaculis urna id volutpat lacus laoreet. At erat pellentesque adipiscing com",
     "status": 3,
-    "type": 4,
+    "type": 3,
     "created_at": "2019-09-26T15:53:30.957Z",
     "project": 2
   }
@@ -93,6 +93,54 @@
     "type": 4,
     "created_at": "2019-09-26T15:55:58.515Z",
     "project": 1
+  }
+},
+{
+  "model": "webapp.issue",
+  "pk": 10,
+  "fields": {
+    "summary": "\u041f\u043e\u043c\u0435\u043d\u044f\u0442\u044c \u0434\u0438\u0437\u0430\u0439\u043d \u0438\u043d\u0442\u0435\u0440\u043d\u0435\u0442-\u043c\u0430\u0433\u0430\u0437\u0438\u043d\u0430",
+    "description": "\u0422\u0415\u041a\u0421\u0422\u0415\u041a\u0421\u0422\u0415\u041a\u0421\u0422\u0415\u041a\u0421\u0422",
+    "status": 3,
+    "type": 2,
+    "created_at": "2019-10-15T04:05:53.647Z",
+    "project": 1
+  }
+},
+{
+  "model": "webapp.issue",
+  "pk": 11,
+  "fields": {
+    "summary": "\u0422\u043e\u0432\u0430\u0440\u044b \u0434\u043b\u044f \u043c\u0430\u0433\u0430\u0437\u0438\u043d\u0430 \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u043e\u0432",
+    "description": "LoremLoremLoremLoremLoremLoremLoremLorem\r\nLoremLoremLoremLoremLoremLoremLoremLorem\r\nLoremLoremLoremLoremLoremLoremLoremLorem\r\nLoremLoremLoremLoremLoremLoremLoremLorem\r\nLoremLoremLoremLorem",
+    "status": 3,
+    "type": 1,
+    "created_at": "2019-10-15T04:36:16.985Z",
+    "project": 9
+  }
+},
+{
+  "model": "webapp.issue",
+  "pk": 12,
+  "fields": {
+    "summary": "\u0417\u0430\u043a\u0440\u044b\u0442\u0430\u044f/\u0412\u044b\u043f\u043e\u043b\u0435\u043d\u043d\u0430\u044f \u0437\u0430\u0434\u0430\u0447\u0430",
+    "description": "",
+    "status": 3,
+    "type": 2,
+    "created_at": "2019-10-15T09:53:20.020Z",
+    "project": 10
+  }
+},
+{
+  "model": "webapp.issue",
+  "pk": 13,
+  "fields": {
+    "summary": "\u0412\u044b\u043f\u043e\u043b\u043d\u0435\u043d\u043d\u0430\u044f \u0437\u0430\u0434\u0430\u0447\u0430",
+    "description": "",
+    "status": 3,
+    "type": 3,
+    "created_at": "2019-10-15T09:53:35.651Z",
+    "project": 10
   }
 },
 {
@@ -162,6 +210,28 @@
   }
 },
 {
+  "model": "webapp.project",
+  "pk": 9,
+  "fields": {
+    "name": "\u041c\u0430\u0433\u0430\u0437\u0438\u043d \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u043e\u0432",
+    "description": "",
+    "created_at": "2019-10-15T04:35:33.042Z",
+    "updated_at": "2019-10-15T04:35:33.042Z",
+    "status": "active"
+  }
+},
+{
+  "model": "webapp.project",
+  "pk": 10,
+  "fields": {
+    "name": "\u0417\u0430\u043a\u0440\u044b\u0442\u044b\u0439 \u043f\u0440\u043e\u0435\u043a\u0442",
+    "description": "\u0410\u0431\u0441\u043e\u043b\u044e\u0442\u043d\u043e \u0441\u0435\u043a\u0440\u0435\u0442\u043d\u043e!",
+    "created_at": "2019-10-15T09:52:40.792Z",
+    "updated_at": "2019-10-15T09:52:40.792Z",
+    "status": "closed"
+  }
+},
+{
   "model": "webapp.status",
   "pk": 1,
   "fields": {
@@ -215,7 +285,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$150000$Li09Xrh3bh1y$05N8sin1P9SxsXvxV2F4X4sWnP4tnvYWyIggrBEqal8=",
-    "last_login": "2019-10-09T13:46:12.541Z",
+    "last_login": "2019-10-25T08:47:10.082Z",
     "is_superuser": true,
     "username": "admin",
     "first_name": "",
