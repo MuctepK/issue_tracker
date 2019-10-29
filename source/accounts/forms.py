@@ -3,13 +3,19 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
 
-class SignUpForm(forms.Form):
-    username = forms.CharField(max_length=100, required=True, label='Username')
-    password = forms.CharField(max_length=100, required=True, label='Password',
-                               widget=forms.PasswordInput)
-    confirm_password = forms.CharField(max_length=100, required=True, label='Password Confirm',
-                               widget=forms.PasswordInput)
-    email = forms.EmailField(required=True, label='Email')
+class SignUpForm(forms.ModelForm):
+    password = forms.CharField(label="Пароль", strip=False, widget=forms.PasswordInput)
+    password_confirm = forms.CharField(label="Подтвердите пароль", widget=forms.PasswordInput, strip=False)
+    email = forms.CharField(label='Email', required=True)
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password"])
+        if commit:
+            user.save()
+        return user
+
+
 
     def clean_username(self):
         username = self.cleaned_data['username']
@@ -29,7 +35,16 @@ class SignUpForm(forms.Form):
 
     def clean(self):
         super().clean()
-        password_1 = self.cleaned_data['password']
-        password_2 = self.cleaned_data['confirm_password']
-        if password_1 != password_2:
-            raise ValidationError('Пароли не совпадают', code='passwords_do_not_match')
+        password = self.cleaned_data.get("password")
+        password_confirm = self.cleaned_data.get("password_confirm")
+        if password and password_confirm and password != password_confirm:
+            raise forms.ValidationError('Пароли не совпадают!')
+        first_name = self.cleaned_data.get('first_name')
+        last_name = self.cleaned_data.get('last_name')
+        if not (first_name or last_name):
+            raise ValidationError('Имя или фамилия не должно быть пустым!', code ='first_or_last_name_required')
+
+    class Meta:
+        model = User
+        fields = ['username', 'password', 'password_confirm', 'first_name', 'last_name', 'email']
+        labels = {'username': 'Логин', 'first_name': 'Имя', 'last_name': 'Фамилия'}
