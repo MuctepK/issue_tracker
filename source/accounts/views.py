@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.urls import reverse
-from django.views.generic import DetailView, UpdateView
+from django.views.generic import DetailView, UpdateView, ListView
 
 from accounts.forms import SignUpForm, UserChangeForm, UserChangePasswordForm
 
@@ -48,6 +48,12 @@ class UserDetailView(DetailView):
     template_name = 'user_detail.html'
     context_object_name = 'user_obj'
 
+
+class UserListView(ListView):
+    model = User
+    template_name = 'user_list.html'
+    context_object_name = 'users'
+    ordering = ['-date_joined']
 
 class UserChangeView(UserPassesTestMixin, UpdateView):
     model = User

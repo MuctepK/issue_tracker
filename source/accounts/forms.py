@@ -54,14 +54,15 @@ class UserChangeForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email']
+        labels = {'first_name': 'Имя', 'last_name': 'Фамилия', 'email': 'Email'}
 
 
 class UserChangePasswordForm(forms.ModelForm):
-    password = forms.CharField(max_length=100, required=True, label='New Password',
+    password = forms.CharField(max_length=100, required=True, label='Новый пароль',
                                widget=forms.PasswordInput)
-    password_confirm = forms.CharField(max_length=100, required=True, label='New Password confirm',
+    password_confirm = forms.CharField(max_length=100, required=True, label='Подтвердите новый пароль',
                                        widget=forms.PasswordInput)
-    old_password = forms.CharField(max_length=100, required=True, label='Old Password',
+    old_password = forms.CharField(max_length=100, required=True, label='Старый пароль',
                                    widget=forms.PasswordInput)
 
     def clean_old_password(self):
