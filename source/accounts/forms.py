@@ -48,3 +48,8 @@ class SignUpForm(forms.ModelForm):
         model = User
         fields = ['username', 'password', 'password_confirm', 'first_name', 'last_name', 'email']
         labels = {'username': 'Логин', 'first_name': 'Имя', 'last_name': 'Фамилия'}
+
+class UserChangeForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
