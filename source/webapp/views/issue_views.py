@@ -35,7 +35,7 @@ class IssueCreateView(LoginRequiredMixin,CreateView):
     extra_context = {'title': 'Задачи'}
 
     def get_success_url(self):
-        return reverse('issue_view', kwargs={'pk': self.object.pk})
+        return reverse('webapp:issue_view', kwargs={'pk': self.object.pk})
 
 
 class IssueUpdateView(LoginRequiredMixin, UpdateView):
@@ -45,11 +45,11 @@ class IssueUpdateView(LoginRequiredMixin, UpdateView):
     extra_context = {'title': 'Задачи'}
 
     def get_success_url(self):
-        return reverse('issue_view', kwargs={'pk': self.object.pk})
+        return reverse('webapp:issue_view', kwargs={'pk': self.object.pk})
 
 
 class IssueDeleteView(LoginRequiredMixin, DeleteView):
     model = Issue
     template_name = 'delete.html'
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('webapp:index')
     extra_context = {'title': 'удалить Задачу'}

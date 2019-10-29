@@ -18,7 +18,7 @@ class StatusCreateView(LoginRequiredMixin, CreateView):
     extra_context = {'title': 'Статуса'}
     model = Status
     form_class = StatusForm
-    success_url = reverse_lazy('statuses')
+    success_url = reverse_lazy('webapp:statuses')
 
 
 class StatusUpdateView(LoginRequiredMixin, UpdateView):
@@ -26,14 +26,14 @@ class StatusUpdateView(LoginRequiredMixin, UpdateView):
     extra_context = {'title': 'удалить Статус'}
     model = Status
     fields = ['name']
-    success_url = reverse_lazy('statuses')
+    success_url = reverse_lazy('webapp:statuses')
 
 
 class StatusDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'delete.html'
     extra_context = {'title': 'Статус'}
     model = Status
-    success_url = reverse_lazy('statuses')
+    success_url = reverse_lazy('webapp:statuses')
 
     def post(self, request, *args, **kwargs):
         try:

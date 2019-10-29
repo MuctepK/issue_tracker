@@ -2,7 +2,7 @@
 {% load widget_tweaks %}
 {% block menu %}
     {% if user.is_authenticated %}
-    <li><a href="{% url 'project_create' %}">Создать проект</a></li>
+    <li><a href="{% url 'webapp:project_create' %}">Создать проект</a></li>
     {% endif %}
 {% endblock %}
 {% block content %}

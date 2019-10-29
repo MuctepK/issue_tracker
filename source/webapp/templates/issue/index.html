@@ -2,7 +2,7 @@
 {% load widget_tweaks %}
 {% block menu %}
     {% if user.is_authenticated %}
-    <li><a href="{% url 'issue_create' %}">Создать задачу</a></li>
+    <li><a href="{% url 'webapp:issue_create' %}">Создать задачу</a></li>
     {% endif %}
     <li class="ml-3"><div class="btn-group">
   <button type="button" class="btn btn-primary">Списки</button>
@@ -10,9 +10,9 @@
     <span class="sr-only">Toggle Dropdown</span>
   </button>
   <div class="dropdown-menu">
-    <a class="dropdown-item" href="{% url 'projects' %}">Список проектов</a>
-    <a class="dropdown-item" href="{% url 'statuses' %}">Список статусов</a>
-    <a class="dropdown-item" href="{% url 'types' %}">Список типов</a>
+    <a class="dropdown-item" href="{% url 'webapp:projects' %}">Список проектов</a>
+    <a class="dropdown-item" href="{% url 'webapp:statuses' %}">Список статусов</a>
+    <a class="dropdown-item" href="{% url 'webapp:types' %}">Список типов</a>
   </div>
 </div></li>
 {% endblock %}

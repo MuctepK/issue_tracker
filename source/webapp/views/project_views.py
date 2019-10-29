@@ -59,7 +59,7 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
     form_class = ProjectForm
     template_name = 'create.html'
     extra_context = {'title': 'Проекта'}
-    success_url = reverse_lazy('projects')
+    success_url = reverse_lazy('webapp:projects')
 
 
 class ProjectUpdateView(LoginRequiredMixin, UpdateView):
@@ -77,15 +77,15 @@ class ProjectUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         if self.object.status == PROJECT_DEFAULT_STATUS:
-            return reverse('project_view', kwargs={'pk': self.object.pk})
+            return reverse('webapp:project_view', kwargs={'pk': self.object.pk})
         else:
-            return reverse('projects')
+            return reverse('webapp:projects')
 
 
 class ProjectDeleteView(LoginRequiredMixin, DeleteView):
     model = Project
     template_name = 'delete.html'
-    success_url = reverse_lazy('projects')
+    success_url = reverse_lazy('webapp:projects')
     extra_context = {'title': 'закрыть Проект'}
 
     def get(self, request, *args, **kwargs):

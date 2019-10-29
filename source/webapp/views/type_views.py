@@ -18,7 +18,7 @@ class TypeCreateView(LoginRequiredMixin, CreateView):
     extra_context = {'title': 'Типа'}
     model = Type
     form_class = TypeForm
-    success_url = reverse_lazy('types')
+    success_url = reverse_lazy('webapp:types')
 
 
 class TypeUpdateView(LoginRequiredMixin, UpdateView):
@@ -26,14 +26,14 @@ class TypeUpdateView(LoginRequiredMixin, UpdateView):
     extra_context = {'title': 'Типа'}
     model = Type
     form_class = TypeForm
-    success_url = reverse_lazy('types')
+    success_url = reverse_lazy('webapp:types')
 
 
 class TypeDeleteView(LoginRequiredMixin, DeleteView):
     extra_context = {'title': 'удалить Тип'}
     template_name = 'delete.html'
     model = Type
-    success_url = reverse_lazy('types')
+    success_url = reverse_lazy('webapp:types')
 
     def post(self, request, *args, **kwargs):
         try:

@@ -3,16 +3,16 @@
                 {% if project.status == 'active' %}
                     {% if user.is_authenticated %}
                         <div class="left col-10 d-flex justify-content-center">
-                    <h5><a href="{% url 'project_view' project.pk %}">{{ project.name }}</a></h5>
+                    <h5><a href="{% url 'webapp:project_view' project.pk %}">{{ project.name }}</a></h5>
                 </div>
                 <div class="right col-2 d-flex justify-content-end">
 
-                    <p><a href="{% url 'project_update' project.pk %}"><i class="far fa-edit"></i></a></p>
-                    <p><a href="{% url 'project_delete' project.pk %}"><i class="far fa-trash-alt"></i></a></p>
+                    <p><a href="{% url 'webapp:project_update' project.pk %}"><i class="far fa-edit"></i></a></p>
+                    <p><a href="{% url 'webapp:project_delete' project.pk %}"><i class="far fa-trash-alt"></i></a></p>
                         </div>
                         {% else %}
                          <div class="left col-12 d-flex justify-content-center">
-                    <h5><a href="{% url 'project_view' project.pk %}">{{ project.name }}</a></h5>
+                    <h5><a href="{% url 'webapp:project_view' project.pk %}">{{ project.name }}</a></h5>
                 </div>
                 {% endif %}
                     {% else %}
