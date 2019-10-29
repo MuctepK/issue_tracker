@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.views.generic import DetailView
 
 from accounts.forms import SignUpForm
 
@@ -39,3 +40,9 @@ def register_view(request, *args, **kwargs):
     else:
         form = SignUpForm()
     return render(request, 'register.html', context={'form': form})
+
+
+class UserDetailView(DetailView):
+    model = User
+    template_name = 'user_detail.html'
+    context_object_name = 'user_obj'
