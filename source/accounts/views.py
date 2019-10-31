@@ -55,11 +55,13 @@ class UserListView(ListView):
     context_object_name = 'users'
     ordering = ['-date_joined']
 
+
 class UserChangeView(UserPassesTestMixin, UpdateView):
     model = User
     template_name = 'user_update.html'
     context_object_name = 'user_obj'
     form_class = UserChangeForm
+
 
     def test_func(self):
         return self.get_object() == self.request.user

@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
+from accounts.models import GitHubUser
+
 
 class SignUpForm(forms.ModelForm):
     password = forms.CharField(label="Пароль", strip=False, widget=forms.PasswordInput)
@@ -14,8 +16,6 @@ class SignUpForm(forms.ModelForm):
         if commit:
             user.save()
         return user
-
-
 
     def clean_username(self):
         username = self.cleaned_data['username']
@@ -51,11 +51,18 @@ class SignUpForm(forms.ModelForm):
 
 
 class UserChangeForm(forms.ModelForm):
+    link = forms.URLField(max_length=256, required=False, label = 'Ссылка на гитхаб')
+
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email']
         labels = {'first_name': 'Имя', 'last_name': 'Фамилия', 'email': 'Email'}
 
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.save()
+        GitHubUser.objects.create(user=user, link=self.cleaned_data['link'])
+        return user
 
 class UserChangePasswordForm(forms.ModelForm):
     password = forms.CharField(max_length=100, required=True, label='Новый пароль',

@@ -43,9 +43,21 @@
         </div>
 
     </div>
+    <div class="row">
+        <div class="col-6">
+            <p class="d-block">Ссылка на гитхаб:</p>
+        </div>
+        <div class="col-6">
+            {% if user_obj.github_link %}
+            <p><b>{{ user_obj.github_link.link }}</b></p>
+            {% else %}
+            <p><b>"Не указано"</b></p>
+            {% endif %}
+        </div>
+    </div>
     <div class="row ">
             <p class="col-6">Дата регистрации:</p>
-            <p class="col-6"><b>{{ user_obj.date_joined }}</b></p>
+            <p class="col-6"><b>{{ user_obj.date_joined|date:"Y-m-d H:i:s" }}</b></p>
         </div>
     </div>
 {% endfor %}
