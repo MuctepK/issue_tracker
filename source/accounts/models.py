@@ -3,9 +3,18 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 
-class GitHubUser(models.Model):
-    user = models.OneToOneField(User, default='Не указано', on_delete=models.CASCADE, related_name='github_link', null=True)
-    link = models.URLField(verbose_name='Ссылка на гитхаб',max_length=256)
+class Profile(models.Model):
+    user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE, verbose_name='Пользователь')
+    birth_date = models.DateField(null=True, blank=True, verbose_name='Дата рождения')
+    avatar = models.ImageField(null=True, blank=True, upload_to='user_pics', verbose_name='Аватар')
+    link = models.URLField(verbose_name='Ссылка на гитхаб',null=True, blank=True,max_length=256)
 
     def __str__(self):
-        return self.link
+        return self.user.get_full_name() + "'s Profile"
+
+    class Meta:
+        verbose_name = 'Профиль'
+        verbose_name_plural = 'Профили'
+
+
+

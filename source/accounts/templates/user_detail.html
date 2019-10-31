@@ -8,6 +8,9 @@
 {% endblock %}
 {% block content %}
     <div class="object">
+        {% if user_obj.profile.avatar %}
+        <img src="{{ user_obj.profile.avatar.url }}" alt="">
+        {% endif %}
      <h2>Профиль: {{ user_obj.username }}</h2>
     <div class="row">
         <div class="col-6">
@@ -25,6 +28,11 @@
         <div class="row ">
         <p class="col-6">Email:</p>
         <p class="col-6"><b>{{ user_obj.email }}</b></p>
+        </div>
+
+        <div class="row ">
+        <p class="col-6">Дата рождения:</p>
+        <p class="col-6"><b>{{ user_obj.profile.birth_date|date:"Y-m-d H:i:s" }}</b></p>
         </div>
     </div>
 {% endblock %}
