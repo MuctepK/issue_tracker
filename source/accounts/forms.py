@@ -59,14 +59,14 @@ class UserChangeForm(forms.ModelForm):
 
     def get_initial_for_field(self, field, field_name):
         if field_name in self.Meta.profile_fields:
-            return getattr(self.instance.profile,field_name)
+            return getattr(self.instance.profile, field_name)
         return super().get_initial_for_field(field,field_name)
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'avatar', 'birth_date', 'link']
+        fields = ['first_name', 'last_name', 'email', 'avatar', 'birth_date', 'link', 'about_me']
         labels = {'first_name': 'Имя', 'last_name': 'Фамилия', 'email': 'Email'}
-        profile_fields = ['avatar', 'birth_date', 'link']
+        profile_fields = ['avatar', 'birth_date', 'link', 'about_me']
 
     def save(self, commit=True):
         user = super().save(commit)

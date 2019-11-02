@@ -64,7 +64,6 @@ class UserChangeView(UserPassesTestMixin, UpdateView):
     context_object_name = 'user_obj'
     form_class = UserChangeForm
 
-
     def test_func(self):
         return self.get_object() == self.request.user
 

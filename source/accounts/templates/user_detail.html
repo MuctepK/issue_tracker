@@ -38,16 +38,28 @@
 
         <div class="row ">
         <p class="col-6 pl-5">Дата рождения:</p>
+            {% if user_obj.profile.birth_date %}
         <p class="col-6"><b>{{ user_obj.profile.birth_date|date:"Y-m-d" }}</b></p>
+            {% else %}
+                <p class="col-6"><b>"Не указано"</b></p>
+            {% endif %}
         </div>
         <div class="row ">
         <p class="col-6 pl-5">Ссылка на гитхаб:</p>
+            {% if user_obj.profile.link %}
         <p class="col-6"><a href="{{ user_obj.profile.link }}"><b>{{ user_obj.profile.link }}</b></a></p>
+            {% else %}
+             <p class="col-6"><b>"Не указано"</b></p>
+            {% endif %}
         </div>
         </div>
-    <div class="row">
-        <h2>О себе:</h2>
-        <p>{{ user_obj.profile. }}</p>
+    <div class="row col-12">
+        <h2 class="mx-auto col-12">О себе:</h2>
+        {% if user_obj.profile.about_me %}
+        <p class="px-5">{{ user_obj.profile.about_me }}</p>
+        {% else %}
+            <p class="col-12 mx-auto">Пользователь о себе еще ничего не написал...</p>
+        {% endif %}
     </div>
     </div>
 {% endblock %}
