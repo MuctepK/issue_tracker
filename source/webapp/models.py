@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 DEFAULT_STATUS_ID = 1
 DEFAULT_TYPE_ID = 1
 PROJECT_DEFAULT_STATUS = 'active'
@@ -47,5 +48,11 @@ class Type(models.Model):
     def __str__(self):
         return self.name
 
+
+class Team(models.Model):
+    participant = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name='Участник', related_name='teams')
+    project = models.ForeignKey('webapp.Project', on_delete=models.PROTECT, verbose_name='Проект', related_name='teams')
+    started_at = models.DateField(verbose_name='Дата начала работы')
+    finished_at = models.DateField(verbose_name='Дата окончания работы')
 
 
