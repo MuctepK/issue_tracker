@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
-
+from accounts.models import Profile
 
 
 class SignUpForm(forms.ModelForm):
@@ -51,18 +51,41 @@ class SignUpForm(forms.ModelForm):
 
 
 class UserChangeForm(forms.ModelForm):
-    link = forms.URLField(max_length=256, required=False, label = 'Ссылка на гитхаб')
+    avatar = forms.ImageField(label='Аватар', required=False)
+    birth_date = forms.DateField(label='День рождения', input_formats=['%Y-%m-%d','%d.%m.%Y'], required=False)
+    link = forms.URLField(max_length=256, required=False, label = 'Ссылка на гитхаб', widget=forms.URLInput)
+    about_me = forms.CharField(max_length=512, required=False, label='О себе',
+                               widget=forms.Textarea)
+
+    def get_initial_for_field(self, field, field_name):
+        if field_name in self.Meta.profile_fields:
+            return getattr(self.instance.profile,field_name)
+        return super().get_initial_for_field(field,field_name)
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email']
+        fields = ['first_name', 'last_name', 'email', 'avatar', 'birth_date', 'link']
         labels = {'first_name': 'Имя', 'last_name': 'Фамилия', 'email': 'Email'}
+        profile_fields = ['avatar', 'birth_date', 'link']
 
     def save(self, commit=True):
-        user = super().save(commit=False)
-        user.save()
-        GitHubUser.objects.create(user=user, link=self.cleaned_data['link'])
+        user = super().save(commit)
+        self.save_profile(user)
         return user
+
+    def save_profile(self, user, commit=True):
+        profile = Profile.objects.get_or_create(user=user)[0]
+        for field in self.Meta.profile_fields:
+            setattr(profile, field, self.cleaned_data.get(field))
+        if commit:
+            profile.save()
+
+    def clean_link(self):
+        link = self.cleaned_data['link']
+        if not ('github.com' in link):
+            raise ValidationError('Это не ссылка на гитхаб!', code='not_github_link')
+        return link
+
 
 class UserChangePasswordForm(forms.ModelForm):
     password = forms.CharField(max_length=100, required=True, label='Новый пароль',

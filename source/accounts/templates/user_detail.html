@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 {% block title %}{{ user_obj.username }}{% endblock %}
 {% block menu %}
     {% if user_obj == request.user %}
@@ -7,13 +8,18 @@
     {% endif %}
 {% endblock %}
 {% block content %}
-    <div class="object">
+    <div class="object row px-0">
+    <div class="col-4">
         {% if user_obj.profile.avatar %}
-        <img src="{{ user_obj.profile.avatar.url }}" alt="">
+        <img class="avatar" src="{{ user_obj.profile.avatar.url }}" width="210" height="210" alt="user picture">
+            {% else %}
+            <img class="avatar" src="{% static 'img/anonim.jpg' %}" width="210" height="210" alt="user picture">
         {% endif %}
-     <h2>Профиль: {{ user_obj.username }}</h2>
+    </div>
+    <div class="col-8 pr-0 ">
+     <h2 class="mx-auto">Профиль: {{ user_obj.username }}</h2>
     <div class="row">
-        <div class="col-6">
+        <div class="col-6 pl-5">
             <p class="d-block">Имя:</p>
         </div>
         <div class="col-6">
@@ -22,17 +28,26 @@
 
     </div>
         <div class="row ">
-        <p class="col-6">Фамилия:</p>
+        <p class="col-6 pl-5">Фамилия:</p>
         <p class="col-6"><b>{{ user_obj.last_name }}</b></p>
     </div>
         <div class="row ">
-        <p class="col-6">Email:</p>
+        <p class="col-6 pl-5">Email:</p>
         <p class="col-6"><b>{{ user_obj.email }}</b></p>
         </div>
 
         <div class="row ">
-        <p class="col-6">Дата рождения:</p>
-        <p class="col-6"><b>{{ user_obj.profile.birth_date|date:"Y-m-d H:i:s" }}</b></p>
+        <p class="col-6 pl-5">Дата рождения:</p>
+        <p class="col-6"><b>{{ user_obj.profile.birth_date|date:"Y-m-d" }}</b></p>
         </div>
+        <div class="row ">
+        <p class="col-6 pl-5">Ссылка на гитхаб:</p>
+        <p class="col-6"><a href="{{ user_obj.profile.link }}"><b>{{ user_obj.profile.link }}</b></a></p>
+        </div>
+        </div>
+    <div class="row">
+        <h2>О себе:</h2>
+        <p>{{ user_obj.profile. }}</p>
+    </div>
     </div>
 {% endblock %}

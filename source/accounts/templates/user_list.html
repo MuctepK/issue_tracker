@@ -48,8 +48,8 @@
             <p class="d-block">Ссылка на гитхаб:</p>
         </div>
         <div class="col-6">
-            {% if user_obj.github_link %}
-            <p><a href="/{{ user_obj.github_link }}">{{ user_obj.github_link }}</a></p>
+            {% if user_obj.profile.link %}
+            <p><a href="{{ user_obj.profile.link }}">{{ user_obj.profile.link }}</a></p>
             {% else %}
             <p><b>"Не указано"</b></p>
             {% endif %}

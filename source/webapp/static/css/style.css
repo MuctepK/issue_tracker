@@ -123,3 +123,12 @@ h1, h2, h3 {
 .object .text{
     margin:20px 0;
 }
+.avatar {
+    display: inline-block;
+    width: 210px;
+    height: auto;
+    margin-right: 20px;
+}
+.object .col-3{
+    margin:0;
+}

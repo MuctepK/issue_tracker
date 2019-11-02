@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.views.generic import DetailView, UpdateView, ListView
 
 from accounts.forms import SignUpForm, UserChangeForm, UserChangePasswordForm
+from accounts.models import Profile
 
 
 def login_view(request, **kwargs):
@@ -36,6 +37,7 @@ def register_view(request, *args, **kwargs):
         form = SignUpForm(data=request.POST)
         if form.is_valid():
             user = form.save()
+            Profile.objects.create(user=user)
             login(request, user)
             return redirect('webapp:index')
     else:
