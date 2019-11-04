@@ -13,10 +13,6 @@ def get_all_project_of_user(user):
     return Project.objects.filter(teams__participant_id=user)
 
 
-def get_list_all_project_of_user(user):
-    return [team.project for team in user.teams.all()]
-
-
 class IndexView(SearchView):
     template_name = 'issue/index.html'
     model = Issue
@@ -27,6 +23,11 @@ class IndexView(SearchView):
     ordering = ['-created_at']
     search_form = SimpleSearchForm
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+        context['editable_projects'] = get_all_project_of_user(self.request.user)
+        return context
+
     def get_filters(self):
         return Q(summary__icontains=self.search_value) | Q(description__icontains=self.search_value)
 
@@ -36,6 +37,10 @@ class IssueView(DetailView):
     context_key = 'issue'
     model = Issue
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+        context['editable_projects'] = get_all_project_of_user(self.request.user)
+        return context
 
 class IssueCreateView(CreateView):
     form_class = IssueForm
@@ -64,6 +69,11 @@ class IssueUpdateView(UserPassesTestMixin, UpdateView):
     model = Issue
     template_name = 'update.html'
     extra_context = {'title': 'Задачи'}
+
+    def get_form(self, form_class=None):
+        form = super().get_form()
+        form.fields['project'].queryset = get_all_project_of_user(self.request.user)
+        return form
 
     def get_success_url(self):
         return reverse('webapp:issue_view', kwargs={'pk': self.object.pk})

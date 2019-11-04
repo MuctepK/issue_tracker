@@ -3,7 +3,7 @@
 
 
 
-                {% if user.is_authenticated %}
+                {% if issue.project in editable_projects %}
                     <div class="left col-10 d-flex justify-content-center">
                      <h5><a href="{% url 'webapp:issue_view' issue.pk %}">{{ issue.summary }}</a></h5>
                     </div>
