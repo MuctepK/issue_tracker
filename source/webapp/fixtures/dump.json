@@ -77,7 +77,7 @@
   "fields": {
     "summary": "\u0421\u0431\u043e\u0440 \u0434\u0430\u043d\u043d\u044b\u0445 \u0434\u043b\u044f \u043f\u0440\u043e\u0435\u043a\u0442\u0430 \u043e\u0442\u043a\u0440\u044b\u0442\u044b\u0445 \u0434\u0430\u043d\u043d\u044b\u0445",
     "description": "Feugiat nibh sed pulvinar proin gravida hendrerit lectus. Massa enim nec dui nunc mattis enim. Accumsan sit amet nulla facilisi morbi tempus iaculis urna id. Porttitor lacus luctus accumsan tortor. Pellentesque adipiscing commodo elit at imperdiet. Velit scelerisque in dictum non. Neque gravida in fermentum et sollicitudin ac orci phasellus egestas. Tristique senectus et netus et. Integer feugiat scelerisque varius morbi enim nunc faucibus a pellentesque. Nulla facilisi morbi tempus iaculis urna id volutpat lacus laoreet. At erat pellentesque adipiscing com",
-    "status": 3,
+    "status": 1,
     "type": 3,
     "created_at": "2019-09-26T15:53:30.957Z",
     "project": 2
@@ -285,7 +285,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$150000$Li09Xrh3bh1y$05N8sin1P9SxsXvxV2F4X4sWnP4tnvYWyIggrBEqal8=",
-    "last_login": "2019-10-31T07:53:03.432Z",
+    "last_login": "2019-11-02T14:51:54.561Z",
     "is_superuser": true,
     "username": "admin",
     "first_name": "\u041a\u0443\u0442\u043c\u0430\u043d",
@@ -293,7 +293,7 @@
     "email": "muctep.k@gmail.com",
     "is_staff": true,
     "is_active": true,
-    "date_joined": "2019-09-25T14:59:38.316Z",
+    "date_joined": "2019-09-25T14:59:38Z",
     "groups": [],
     "user_permissions": []
   }
@@ -386,6 +386,72 @@
     "date_joined": "2019-10-29T09:12:19.311Z",
     "groups": [],
     "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 7,
+  "fields": {
+    "password": "pbkdf2_sha256$150000$AEGTOniBM3S7$9u/BeWQxwOJfvxL4RRuqUNZ7q2tsF/WspDl6n11xXzI=",
+    "last_login": "2019-10-31T15:03:45.622Z",
+    "is_superuser": false,
+    "username": "John",
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "John@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-10-31T13:20:26.002Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 8,
+  "fields": {
+    "password": "pbkdf2_sha256$150000$P8HSoTPtyNHY$//V+MhlZpAil1h4Z3722ahid3VnAYnk69LLjOGNLTg8=",
+    "last_login": "2019-10-31T14:50:41.116Z",
+    "is_superuser": false,
+    "username": "Mike",
+    "first_name": "Mike",
+    "last_name": "Black",
+    "email": "mike@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-10-31T14:50:40.609Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "webapp.team",
+  "pk": 1,
+  "fields": {
+    "participant": 1,
+    "project": 2,
+    "started_at": "2019-09-01",
+    "finished_at": "2019-12-01"
+  }
+},
+{
+  "model": "webapp.team",
+  "pk": 2,
+  "fields": {
+    "participant": 7,
+    "project": 2,
+    "started_at": "2019-09-01",
+    "finished_at": "2019-11-01"
+  }
+},
+{
+  "model": "webapp.team",
+  "pk": 3,
+  "fields": {
+    "participant": 8,
+    "project": 1,
+    "started_at": "2019-02-25",
+    "finished_at": "2019-06-25"
   }
 }
 ]
