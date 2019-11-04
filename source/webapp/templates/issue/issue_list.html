@@ -22,4 +22,5 @@
             <p class="text col-6 align-self-end">Статус задачи: {{ issue.status }}</p>
         </div>
         <p class="text col-12 align-self-center">Дата создания: {{ issue.created_at|date:'Y-m-d H:i:s' }}</p>
+        <p class="text col-12 align-self-center">Относится к проекту: {{ issue.project }}</p>
         </div>

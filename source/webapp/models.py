@@ -55,4 +55,7 @@ class Team(models.Model):
     started_at = models.DateField(verbose_name='Дата начала работы')
     finished_at = models.DateField(verbose_name='Дата окончания работы')
 
+    def __str__(self):
+        return "Участник {}, проекта {}".format(self.participant, self.project)
+
 

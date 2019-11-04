@@ -1,11 +1,16 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Q
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db.models import Q, QuerySet
+from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from webapp.models import Issue
 from webapp.forms import IssueForm, SimpleSearchForm
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView, DetailView
 from webapp.views.base_views import SearchView
+
+
+def get_all_project_of_user(user):
+    return QuerySet([team.project for team in user.teams.all()])
 
 
 class IndexView(SearchView):
@@ -28,7 +33,7 @@ class IssueView(DetailView):
     model = Issue
 
 
-class IssueCreateView(LoginRequiredMixin,CreateView):
+class IssueCreateView(CreateView):
     form_class = IssueForm
     model = Issue
     template_name = 'create.html'
@@ -37,8 +42,20 @@ class IssueCreateView(LoginRequiredMixin,CreateView):
     def get_success_url(self):
         return reverse('webapp:issue_view', kwargs={'pk': self.object.pk})
 
+    def get_form(self):
+        form = super().get_form()
+        form.fields['project'] = get_all_project_of_user(self.request.user)
+        return form
 
-class IssueUpdateView(LoginRequiredMixin, UpdateView):
+    def form_valid(self, form):
+        print()
+        if form.cleaned_data['project'] in get_all_project_of_user(self.request.user):
+            return super().form_valid(form)
+        else:
+            raise Http404('Вы не можете добавлять задачу в этот проект')
+
+
+class IssueUpdateView(UserPassesTestMixin, UpdateView):
     form_class = IssueForm
     model = Issue
     template_name = 'update.html'
@@ -47,9 +64,15 @@ class IssueUpdateView(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         return reverse('webapp:issue_view', kwargs={'pk': self.object.pk})
 
+    def test_func(self):
+        return self.get_object().project in get_all_project_of_user(self.request.user)
 
-class IssueDeleteView(LoginRequiredMixin, DeleteView):
+
+class IssueDeleteView(UserPassesTestMixin, DeleteView):
     model = Issue
     template_name = 'delete.html'
     success_url = reverse_lazy('webapp:index')
     extra_context = {'title': 'удалить Задачу'}
+
+    def test_func(self):
+        return self.get_object().project in get_all_project_of_user(self.request.user)

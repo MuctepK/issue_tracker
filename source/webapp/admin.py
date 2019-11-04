@@ -1,5 +1,5 @@
 from django.contrib import admin
-from webapp.models import Issue, Status, Type, Project
+from webapp.models import Issue, Status, Type, Project,Team
 
 
 class IssueAdmin(admin.ModelAdmin):
@@ -24,3 +24,4 @@ admin.site.register(Issue, IssueAdmin)
 admin.site.register(Status)
 admin.site.register(Type)
 admin.site.register(Project, ProjectAdmin)
+admin.site.register(Team)
