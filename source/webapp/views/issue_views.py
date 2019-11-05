@@ -4,8 +4,6 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http import Http404
 from django.urls import reverse, reverse_lazy
-
-
 from webapp.models import Issue, Project
 from webapp.forms import IssueForm, SimpleSearchForm
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView, DetailView
@@ -16,11 +14,7 @@ def get_all_project_of_user(user):
     return Project.objects.filter(teams__participant_id=user)
 
 
-def get_all_teammates_of_user(user):
-    return User.objects.filter(teams__project__in=get_all_project_of_user(user)).exclude(id=user.id)
-
-
-def get_participants_of_project(project,user):
+def get_participants_of_project(project, user):
     return User.objects.filter(teams__project=project).exclude(id=user.id)
 
 
@@ -56,7 +50,7 @@ class IssueView(DetailView):
         return context
 
 
-class IssueCreateView(LoginRequiredMixin, CreateView):
+class IssueCreateView(UserPassesTestMixin, CreateView):
     form_class = IssueForm
     model = Issue
     template_name = 'create.html'
@@ -67,19 +61,27 @@ class IssueCreateView(LoginRequiredMixin, CreateView):
 
     def get_form(self, form_class=None):
         form = super().get_form()
-        form.fields['project'].queryset = get_all_project_of_user(self.request.user)
-        form.fields['assigned_to'].queryset = get_all_teammates_of_user(self.request.user)
+        project = self.get_project()
+        form.fields['assigned_to'].queryset = get_participants_of_project(project=project,
+                                                                      user=self.request.user)
         return form
 
     def form_valid(self, form):
-        print(get_all_project_of_user(form.cleaned_data['assigned_to']))
-
-        if not (form.cleaned_data['project'] in get_all_project_of_user(self.request.user)):
+        project = self.get_project()
+        if not (project in get_all_project_of_user(self.request.user)):
             raise Http404('Вы не можете добавлять задачу в этот проект')
         else:
             self.object = form.save(commit=False)
             self.object.created_by = self.request.user
+            self.object.project = project
             return super().form_valid(form)
+
+    def test_func(self):
+        project = self.get_project()
+        return project in (get_all_project_of_user(self.request.user))
+
+    def get_project(self):
+        return Project.objects.get(pk=self.kwargs.get('project_pk'))
 
 
 class IssueUpdateView(UserPassesTestMixin, UpdateView):
@@ -90,14 +92,9 @@ class IssueUpdateView(UserPassesTestMixin, UpdateView):
 
     def get_form(self, form_class=None):
         form = super().get_form()
-        form.fields['project'].queryset = get_all_project_of_user(self.request.user)
-        form.fields['assigned_to'].queryset = get_participants_of_project(self.object.project, self.request.user)
+        form.fields['assigned_to'].queryset = get_participants_of_project(project=self.object.project,
+                                                                          user=self.request.user)
         return form
-
-    def form_valid(self, form):
-        if self.get_object().project != form.cleaned_data['project']:
-            raise Http404("Нельзя менять проект уже созданной задачи!")
-        return super().form_valid(form)
 
     def get_success_url(self):
         return reverse('webapp:issue_view', kwargs={'pk': self.object.pk})

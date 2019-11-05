@@ -6,7 +6,7 @@ from webapp.views import IndexView, IssueCreateView, IssueView, IssueUpdateView,
 urlpatterns = [
     path('', IndexView.as_view(), name = 'index'),
     path('issue/<int:pk>/', IssueView.as_view(), name='issue_view'),
-    path('issue/create/', IssueCreateView.as_view(), name='issue_create'),
+    path('issue/create/<int:project_pk>', IssueCreateView.as_view(), name='issue_create'),
     path('issue/update/<int:pk>/', IssueUpdateView.as_view(), name='issue_update'),
     path('issue/delete/<int:pk>/', IssueDeleteView.as_view(), name='issue_delete'),
     path('statuses/', StatusListView.as_view(), name='statuses'),

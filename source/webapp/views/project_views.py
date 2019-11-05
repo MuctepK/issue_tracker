@@ -5,8 +5,9 @@ from django.http import HttpResponseRedirect, HttpResponseNotFound, Http404
 from django.urls import reverse, reverse_lazy
 from webapp.models import Project, PROJECT_DEFAULT_STATUS
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
-from webapp.forms import ProjectForm, SimpleSearchForm
+from webapp.forms import ProjectForm, SimpleSearchForm, IssueForm
 from webapp.views.base_views import SearchView
+from webapp.views.issue_views import get_all_project_of_user, get_participants_of_project
 
 
 class ProjectListView(SearchView):
@@ -19,6 +20,8 @@ class ProjectListView(SearchView):
         context = super().get_context_data(**kwargs)
         context['active_projects'] = self.get_queryset().filter(status='active')
         context['closed_projects'] = self.get_queryset().filter(status='closed')
+        if self.request.user.is_authenticated:
+            context['editable_projects'] = get_all_project_of_user(self.request.user)
         return context
 
     def get_filters(self):
@@ -41,6 +44,11 @@ class ProjectDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         project = self.object
         issues = project.issues.order_by('-created_at')
+        context['can_edit'] = self.request.user.is_authenticated and \
+                              project in get_all_project_of_user(self.request.user)
+        form = IssueForm()
+        form.fields['assigned_to'].queryset = get_participants_of_project(project, user=self.request.user)
+        context['form'] = form
         self.paginate_comments_to_context(issues, context)
         return context
 

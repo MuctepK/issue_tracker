@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block menu %}
     <li><a href="{% url 'webapp:projects' %}">Список проектов</a></li>
-    {% if user.is_authenticated %}
+    {% if can_edit %}
     <li><a href="{% url 'webapp:project_update' project.pk %}">Редактировать этот проект</a></li>
     <li><a href="{% url 'webapp:project_delete' project.pk %}">Удалить этот проект</a></li>
     {% endif %}
@@ -22,6 +22,12 @@
          <p class="text col-6 align-self-end">Дата изменения: {{ project.updated_at|date:'Y-m-d H:i:s' }}</p>
         </div>
     <p>Статус проекта: {{ project.get_status_display }}</p>
+    {% if can_edit %}
+    <h3>Добавить задачу к этому проекту</h3>
+    <form action="{% url 'webapp:issue_create' project.pk %}" method="post">
+    {% include 'partial/form.html' with button_text='Добавить' %}
+    </form>
+    {% endif %}
     <h3>Задачи к этому проекту</h3>
     {% for issue in issues %}
         {% include "issue/issue_list.html" %}
