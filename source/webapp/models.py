@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+
+from accounts.models import Profile
+
 DEFAULT_STATUS_ID = 1
 DEFAULT_TYPE_ID = 1
 PROJECT_DEFAULT_STATUS = 'active'

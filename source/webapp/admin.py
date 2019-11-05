@@ -3,11 +3,11 @@ from webapp.models import Issue, Status, Type, Project,Team
 
 
 class IssueAdmin(admin.ModelAdmin):
-    list_display = ['pk', 'summary', 'project', 'status', 'type',  'created_at']
+    list_display = ['pk', 'summary', 'project', 'status', 'type',  'created_at', 'created_by', 'assigned_to']
     list_filter = ['status', 'type']
     list_display_links = ['pk', 'summary']
     search_fields = ['summary', 'description']
-    fields = ['summary', 'description', 'project','status', 'type', 'created_at']
+    fields = ['summary', 'description', 'project','status', 'type', 'created_at', 'created_by', 'assigned_to']
     readonly_fields = ['created_at']
 
 
