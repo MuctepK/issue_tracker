@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block menu %}
-    {% if issue.project in editable_projects %}
+    {% if can_edit %}
     <li><a href="{% url 'webapp:issue_update' issue.pk %}">Редактировать эту задачу</a></li>
     <li><a href="{% url 'webapp:issue_delete' issue.pk %}">Удалить эту задачу</a></li>
     {% endif %}

@@ -25,7 +25,8 @@ class IndexView(SearchView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
-        context['editable_projects'] = get_all_project_of_user(self.request.user)
+        if self.request.user.is_authenticated:
+            context['editable_projects'] = get_all_project_of_user(self.request.user)
         return context
 
     def get_filters(self):
@@ -39,10 +40,12 @@ class IssueView(DetailView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
-        context['editable_projects'] = get_all_project_of_user(self.request.user)
+        context['can_edit'] = self.request.user.is_authenticated and \
+                              self.object.project in get_all_project_of_user(self.request.user)
         return context
 
-class IssueCreateView(CreateView):
+
+class IssueCreateView(LoginRequiredMixin, CreateView):
     form_class = IssueForm
     model = Issue
     template_name = 'create.html'
