@@ -3,7 +3,7 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpResponseRedirect, HttpResponseNotFound, Http404
 from django.urls import reverse, reverse_lazy
-from webapp.models import Project, PROJECT_DEFAULT_STATUS
+from webapp.models import Project, PROJECT_DEFAULT_STATUS, Team
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from webapp.forms import ProjectForm, SimpleSearchForm, IssueForm
 from webapp.views.base_views import SearchView
@@ -47,8 +47,9 @@ class ProjectDetailView(DetailView):
         context['can_edit'] = self.request.user.is_authenticated and \
                               project in get_all_project_of_user(self.request.user)
         form = IssueForm()
-        form.fields['assigned_to'].queryset = get_participants_of_project(project, user=self.request.user)
+        form.fields['assigned_to'].queryset = get_participants_of_project(project).exclude(id=self.request.user.id)
         context['form'] = form
+        context['teams'] = Team.objects.filter(project=project).filter(finished_at=None)
         self.paginate_comments_to_context(issues, context)
         return context
 

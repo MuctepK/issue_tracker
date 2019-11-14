@@ -14,8 +14,8 @@ def get_all_project_of_user(user):
     return Project.objects.filter(teams__participant_id=user)
 
 
-def get_participants_of_project(project, user):
-    return User.objects.filter(teams__project=project).exclude(id=user.id)
+def get_participants_of_project(project):
+    return User.objects.filter(teams__project=project)
 
 
 class IndexView(SearchView):

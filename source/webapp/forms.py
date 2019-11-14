@@ -1,8 +1,9 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.forms import widgets
-from webapp.models import Issue, Status, Type, Project
+from webapp.models import Issue, Status, Type, Project, Team
+from datetime import datetime
 
 
 def get_all_project_of_user(user):
@@ -18,9 +19,28 @@ class IssueForm(forms.ModelForm):
 
 
 class ProjectForm(forms.ModelForm):
+    participants = forms.ModelMultipleChoiceField(queryset=User.objects.all(), label='Участники проекта')
     class Meta:
         model = Project
         exclude = ['created_at', 'updated_at']
+
+    def save(self, commit=True):
+        project = super().save()
+        self.delete_participants(project)
+        self.add_participants(project)
+        return project
+
+    def delete_participants(self, project):
+        for team in Team.objects.filter(project=project):
+            if team.participant not in self.cleaned_data['participants']:
+                team.finished_at=datetime.now()
+                team.save()
+
+    def add_participants(self, project):
+        for participant in self.cleaned_data['participants']:
+            team, _ = Team.objects.get_or_create(project=project, participant=participant)
+            team.finished_at = None
+            team.save()
 
 
 class StatusForm(forms.ModelForm):

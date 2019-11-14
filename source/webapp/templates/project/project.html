@@ -22,6 +22,18 @@
          <p class="text col-6 align-self-end">Дата изменения: {{ project.updated_at|date:'Y-m-d H:i:s' }}</p>
         </div>
     <p>Статус проекта: {{ project.get_status_display }}</p>
+    <h2>Участники этого проекта:</h2>
+    {% for team in teams %}
+        <div class="row my-1">
+        <p class="col-6">Имя:</p>
+        <p class="col-6">{{ team.participant.first_name }}</p>
+        </div>
+        <div class="row">
+        <p class="col-6">Учавствует с:</p>
+        <p class="col-6">{{ team.started_at|date:"Y-m-d" }}</p>
+        </div>
+
+    {% endfor %}
     {% if can_edit %}
     <h3>Добавить задачу к этому проекту</h3>
     <form action="{% url 'webapp:issue_create' project.pk %}" method="post">

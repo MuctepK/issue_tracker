@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-
 from accounts.models import Profile
 
 DEFAULT_STATUS_ID = 1
@@ -57,8 +56,8 @@ class Type(models.Model):
 class Team(models.Model):
     participant = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name='Участник', related_name='teams')
     project = models.ForeignKey('webapp.Project', on_delete=models.PROTECT, verbose_name='Проект', related_name='teams')
-    started_at = models.DateField(verbose_name='Дата начала работы')
-    finished_at = models.DateField(verbose_name='Дата окончания работы')
+    started_at = models.DateField(auto_now_add=True, verbose_name='Дата начала работы')
+    finished_at = models.DateField(verbose_name='Дата окончания работы',null=True,blank=True)
 
     def __str__(self):
         return "Участник {}, проекта {}".format(self.participant, self.project)
