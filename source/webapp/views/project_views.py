@@ -1,4 +1,5 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpResponseRedirect, HttpResponseNotFound, Http404
@@ -63,19 +64,33 @@ class ProjectDetailView(DetailView):
         context['is_paginated'] = page.has_other_pages()
 
 
-class ProjectCreateView(LoginRequiredMixin, CreateView):
+class ProjectCreateView(PermissionRequiredMixin, CreateView):
     model = Project
     form_class = ProjectForm
     template_name = 'create.html'
     extra_context = {'title': 'Проекта'}
     success_url = reverse_lazy('webapp:projects')
+    permission_required = 'webapp.add_project'
+    permission_denied_message = '403 Доступ запрещен!'
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['participants'].queryset = form.fields['participants'].queryset.exclude(id = self.request.user.id)
+        return form
+
+    def form_valid(self, form):
+        user = User.objects.filter(id=self.request.user.id)
+        form.cleaned_data['participants'] = form.cleaned_data['participants'].union(user)
+        return super().form_valid(form)
 
 
-class ProjectUpdateView(LoginRequiredMixin, UpdateView):
+class ProjectUpdateView(PermissionRequiredMixin, UpdateView):
     form_class = ProjectForm
     model = Project
     template_name = 'update.html'
     extra_context = {'title': 'Проекта'}
+    permission_required = 'webapp.change_project'
+    permission_denied_message = '403 Доступ запрещен!'
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -91,11 +106,13 @@ class ProjectUpdateView(LoginRequiredMixin, UpdateView):
             return reverse('webapp:projects')
 
 
-class ProjectDeleteView(LoginRequiredMixin, DeleteView):
+class ProjectDeleteView(PermissionRequiredMixin, DeleteView):
     model = Project
     template_name = 'delete.html'
     success_url = reverse_lazy('webapp:projects')
     extra_context = {'title': 'закрыть Проект'}
+    permission_required = 'webapp.delete_project'
+    permission_denied_message = '403 Доступ запрещен!'
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()

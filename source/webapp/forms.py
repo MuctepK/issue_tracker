@@ -19,7 +19,7 @@ class IssueForm(forms.ModelForm):
 
 
 class ProjectForm(forms.ModelForm):
-    participants = forms.ModelMultipleChoiceField(queryset=User.objects.all(), label='Участники проекта')
+    participants = forms.ModelMultipleChoiceField(queryset=User.objects.all(), label='Участники проекта', required=False)
     class Meta:
         model = Project
         exclude = ['created_at', 'updated_at']

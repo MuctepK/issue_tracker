@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http import Http404
@@ -50,20 +50,20 @@ class IssueView(DetailView):
         return context
 
 
-class IssueCreateView(UserPassesTestMixin, CreateView):
+class IssueCreateView(UserPassesTestMixin,PermissionRequiredMixin, CreateView):
     form_class = IssueForm
     model = Issue
     template_name = 'create.html'
     extra_context = {'title': 'Задачи'}
-
+    permission_denied_message = 'Доступ запрещен!'
+    permission_required = 'webapp.add_issue'
     def get_success_url(self):
         return reverse('webapp:issue_view', kwargs={'pk': self.object.pk})
 
     def get_form(self, form_class=None):
         form = super().get_form()
         project = self.get_project()
-        form.fields['assigned_to'].queryset = get_participants_of_project(project=project,
-                                                                      user=self.request.user)
+        form.fields['assigned_to'].queryset = get_participants_of_project(project=project).exclude(id=self.request.user.id)
         return form
 
     def form_valid(self, form):
@@ -84,16 +84,17 @@ class IssueCreateView(UserPassesTestMixin, CreateView):
         return Project.objects.get(pk=self.kwargs.get('project_pk'))
 
 
-class IssueUpdateView(UserPassesTestMixin, UpdateView):
+class IssueUpdateView(UserPassesTestMixin, PermissionRequiredMixin, UpdateView):
     form_class = IssueForm
     model = Issue
     template_name = 'update.html'
     extra_context = {'title': 'Задачи'}
+    permission_denied_message = 'Доступ запрещен!'
+    permission_required = 'webapp.change_issue'
 
     def get_form(self, form_class=None):
         form = super().get_form()
-        form.fields['assigned_to'].queryset = get_participants_of_project(project=self.object.project,
-                                                                          user=self.request.user)
+        form.fields['assigned_to'].queryset = get_participants_of_project(project=self.object.project).exclude(id=self.request.user.id)
         return form
 
     def get_success_url(self):
@@ -103,11 +104,13 @@ class IssueUpdateView(UserPassesTestMixin, UpdateView):
         return self.get_object().project in (get_all_project_of_user(self.request.user))
 
 
-class IssueDeleteView(UserPassesTestMixin, DeleteView):
+class IssueDeleteView(UserPassesTestMixin, PermissionRequiredMixin, DeleteView):
     model = Issue
     template_name = 'delete.html'
     success_url = reverse_lazy('webapp:index')
     extra_context = {'title': 'удалить Задачу'}
+    permission_denied_message = 'Доступ запрещен!'
+    permission_required = 'webapp.delete_issue'
 
     def test_func(self):
         return self.get_object().project in get_all_project_of_user(self.request.user)
