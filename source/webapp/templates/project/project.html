@@ -2,8 +2,15 @@
 {% block menu %}
     <li><a href="{% url 'webapp:projects' %}">Список проектов</a></li>
     {% if can_edit %}
+        {% if perms.webapp.change_project %}
     <li><a href="{% url 'webapp:project_update' project.pk %}">Редактировать этот проект</a></li>
+            {% endif %}
+        {% if perms.webapp.delete_project %}
     <li><a href="{% url 'webapp:project_delete' project.pk %}">Удалить этот проект</a></li>
+            {% endif %}
+        {% if perms.webapp.change_team %}
+    <li><a href="{% url 'webapp:team_update' project.pk %}">Изменить команду</a></li>
+            {% endif %}
     {% endif %}
 {% endblock %}
 {% block content %}

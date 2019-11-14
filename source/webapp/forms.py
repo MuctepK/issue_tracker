@@ -20,9 +20,37 @@ class IssueForm(forms.ModelForm):
 
 class ProjectForm(forms.ModelForm):
     participants = forms.ModelMultipleChoiceField(queryset=User.objects.all(), label='Участники проекта', required=False)
+
     class Meta:
         model = Project
         exclude = ['created_at', 'updated_at']
+
+    def save(self, commit=True):
+        project = super().save()
+        self.delete_participants(project)
+        self.add_participants(project)
+        return project
+
+    def delete_participants(self, project):
+        for team in Team.objects.filter(project=project):
+            if team.participant not in self.cleaned_data['participants']:
+                team.finished_at=datetime.now()
+                team.save()
+
+    def add_participants(self, project):
+        for participant in self.cleaned_data['participants']:
+            team, _ = Team.objects.get_or_create(project=project, participant=participant)
+            team.finished_at = None
+            team.save()
+
+
+class ChangeTeamForm(forms.ModelForm):
+    participants = forms.ModelMultipleChoiceField(queryset=User.objects.all(), label ='Выберите участников проекта', required=False)
+
+    class Meta:
+        model = Project
+        fields = ['participants']
+
 
     def save(self, commit=True):
         project = super().save()

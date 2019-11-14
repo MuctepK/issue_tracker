@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect, HttpResponseNotFound, Http404
 from django.urls import reverse, reverse_lazy
 from webapp.models import Project, PROJECT_DEFAULT_STATUS, Team
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
-from webapp.forms import ProjectForm, SimpleSearchForm, IssueForm
+from webapp.forms import ProjectForm, SimpleSearchForm, IssueForm, ChangeTeamForm
 from webapp.views.base_views import SearchView
 from webapp.views.issue_views import get_all_project_of_user, get_participants_of_project
 
@@ -99,6 +99,16 @@ class ProjectUpdateView(PermissionRequiredMixin, UpdateView):
         else:
             return super().get(self,request, *args, **kwargs)
 
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['participants'].queryset = form.fields['participants'].queryset.exclude(id=self.request.user.id)
+        return form
+
+    def form_valid(self, form):
+        user = User.objects.filter(id=self.request.user.id)
+        form.cleaned_data['participants'] = form.cleaned_data['participants'].union(user)
+        return super().form_valid(form)
+
     def get_success_url(self):
         if self.object.status == PROJECT_DEFAULT_STATUS:
             return reverse('webapp:project_view', kwargs={'pk': self.object.pk})
@@ -131,3 +141,26 @@ class ProjectDeleteView(PermissionRequiredMixin, DeleteView):
         self.object.status = 'closed'
         self.object.save()
         return HttpResponseRedirect(success_url)
+
+
+class ChangeTeamView(PermissionRequiredMixin, UpdateView):
+    form_class = ChangeTeamForm
+    model = Project
+    template_name = 'update.html'
+    extra_context = {'title': 'Команды'}
+    permission_required = 'webapp.change_team'
+    permission_denied_message = '403 Доступ запрещен!'
+    success_url = reverse_lazy('webapp:projects')
+
+    def get_success_url(self):
+        return reverse('webapp:project_view', kwargs={'pk': self.object.pk})
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['participants'].queryset = form.fields['participants'].queryset.exclude(id=self.request.user.id)
+        return form
+
+    def form_valid(self, form):
+        user = User.objects.filter(id=self.request.user.id)
+        form.cleaned_data['participants'] = form.cleaned_data['participants'].union(user)
+        return super().form_valid(form)
