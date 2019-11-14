@@ -39,10 +39,11 @@
         <p class="col-6">Учавствует с:</p>
         <p class="col-6">{{ team.started_at|date:"Y-m-d" }}</p>
         </div>
-
+        {% empty %}
+        <h2>У этого проекта нет ни одного участника...</h2>
     {% endfor %}
     {% if can_edit %}
-    <h3>Добавить задачу к этому проекту</h3>
+    <h3 class="mt-5">Добавить задачу к этому проекту</h3>
     <form action="{% url 'webapp:issue_create' project.pk %}" method="post">
     {% include 'partial/form.html' with button_text='Добавить' %}
     </form>

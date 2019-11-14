@@ -51,7 +51,6 @@ class ChangeTeamForm(forms.ModelForm):
         model = Project
         fields = ['participants']
 
-
     def save(self, commit=True):
         project = super().save()
         self.delete_participants(project)

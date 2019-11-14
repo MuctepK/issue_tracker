@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http import Http404
 from django.urls import reverse, reverse_lazy
-from webapp.models import Issue, Project
+from webapp.models import Issue, Project, Team
 from webapp.forms import IssueForm, SimpleSearchForm
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView, DetailView
 from webapp.views.base_views import SearchView
@@ -15,7 +15,7 @@ def get_all_project_of_user(user):
 
 
 def get_participants_of_project(project):
-    return User.objects.filter(teams__project=project)
+    return User.objects.filter(teams__project=project, teams__finished_at=None)
 
 
 class IndexView(SearchView):
@@ -57,6 +57,11 @@ class IssueCreateView(UserPassesTestMixin,PermissionRequiredMixin, CreateView):
     extra_context = {'title': 'Задачи'}
     permission_denied_message = 'Доступ запрещен!'
     permission_required = 'webapp.add_issue'
+
+    # def has_permission(self):
+    #     team = Team.objects.get(participant=self.request.user, project=self.get_project())
+    #     return super().has_permission() and not team.finished_at
+
     def get_success_url(self):
         return reverse('webapp:issue_view', kwargs={'pk': self.object.pk})
 
