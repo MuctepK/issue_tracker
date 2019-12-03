@@ -102,6 +102,7 @@ class ProjectUpdateView(PermissionRequiredMixin, UpdateView):
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
         form.fields['participants'].queryset = form.fields['participants'].queryset.exclude(id=self.request.user.id)
+
         return form
 
     def form_valid(self, form):
@@ -153,7 +154,7 @@ class ChangeTeamView(PermissionRequiredMixin, UpdateView):
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
-        form.fields['participants'].queryset = form.fields['participants'].queryset.exclude(id=self.request.user.id)
+        form.fields['participants'].initial = get_participants_of_project(self.object)
         return form
 
     def form_valid(self, form):
