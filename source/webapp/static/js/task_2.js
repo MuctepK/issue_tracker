@@ -71,13 +71,13 @@ function create_issue(summary, description, project, status, type, createdBy, as
             method: 'post',
             headers: {'Authorization': 'Token ' + localStorage.getItem('apiToken')},
             data: JSON.stringify({
-                summary: [summary],
-                description: [description],
-                project: [project],
-                status: [status],
-                type: [type],
-                created_by: [createdBy],
-                assigned_to: [assignedTo]
+                summary: summary,
+                description: description,
+                project: project,
+                status: status,
+                type: type,
+                created_by: createdBy,
+                assigned_to: assignedTo
 
             }),
             dataType: 'json',
@@ -108,4 +108,5 @@ function delete_issue(pk) {
     );
 }
 login('admin', 'admin');
+
 

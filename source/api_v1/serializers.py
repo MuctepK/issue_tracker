@@ -5,8 +5,6 @@ from webapp.models import Issue, Project
 class IssueSerializer(serializers.ModelSerializer):
     status = serializers.StringRelatedField()
     type = serializers.StringRelatedField()
-    created_by = serializers.CharField(read_only=True)
-    assigned_to = serializers.CharField()
 
     class Meta:
         model = Issue
