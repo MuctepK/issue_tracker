@@ -1,13 +1,28 @@
+from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 from rest_framework import viewsets, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from api_v1.serializers import IssueSerializer, ProjectSerializer
+from api_v1.serializers import IssueSerializer, ProjectSerializer, UserSerializer
 from webapp.models import Issue, Project, Team
 from rest_framework.permissions import SAFE_METHODS, AllowAny, \
     DjangoModelPermissions
 from rest_framework.exceptions import PermissionDenied, APIException
+
+class RegisterView(APIView):
+    permission_classes = []
+    def post(self, request, *args, **kwargs):
+        serialized = UserSerializer(data=request.data)
+        if serialized.is_valid():
+            User.objects.create_user(
+                serialized.init_data['email'],
+                serialized.init_data['username'],
+                serialized.init_data['password']
+            )
+            return Response(serialized.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class LogoutView(APIView):
