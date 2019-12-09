@@ -6,7 +6,10 @@ function login(login, password){
      data: JSON.stringify({username: login, password: password}),
      dataType: 'json',
      contentType: 'application/json',
-     success: function(response, status){localStorage.setItem('apiToken', response.token);},
+    async :false,
+     success: function(response, status){
+         console.log("LOGIN");
+         localStorage.setItem('apiToken', response.token);},
      error: function(response, status){console.log(response);}
 
 });
@@ -19,7 +22,7 @@ function logout(){
     method: 'post',
 
     headers: {'Authorization': `Token ${localStorage.getItem('apiToken')}`},
-
+   async :false,
     dataType: 'json',
 
     success: function(response, status){console.log(response);},
@@ -34,8 +37,11 @@ function view_all_issues(){
      method: 'get',
      headers: {'Authorization': 'Token ' + localStorage.getItem('apiToken')},
      dataType: 'json',
+        async :false,
      contentType: 'application/json',
-     success: function(response, status){console.log(response);},
+     success: function(response, status){
+         console.log("VIEWING ALL ISSUES");
+         console.log(response);},
      error: function(response, status){console.log(response);}
 
 });
@@ -46,8 +52,11 @@ function view_all_projects(){
      method: 'get',
      headers: {'Authorization': 'Token ' + localStorage.getItem('apiToken')},
      dataType: 'json',
+        async :false,
      contentType: 'application/json',
-     success: function(response, status){console.log(response);},
+     success: function(response, status){
+         console.log("VIEWING ALL PROJECTS");
+         console.log(response);},
      error: function(response, status){console.log(response);}
 
 });
@@ -60,7 +69,10 @@ function view_all_issues_of_project(pk){
      headers: {'Authorization': 'Token ' + localStorage.getItem('apiToken')},
      dataType: 'json',
      contentType: 'application/json',
-     success: function(response, status){console.log(response.issues);},
+        async :false,
+     success: function(response, status){
+         console.log("VIEWING ALL ISSUES OF ONE PROJECT");
+         console.log(response.issues);},
      error: function(response, status){console.log(response);}
 
 });
@@ -80,12 +92,15 @@ function create_issue(summary, description, project, status, type, createdBy, as
                 assigned_to: assignedTo
 
             }),
+            async :false,
             dataType: 'json',
             contentType: 'application/json',
             success: function (response, status) {
+                console.log("ISSUE CREATED");
                 console.log(response);
             },
             error: function (response, status) {
+                console.log("COULD NOT CREATE ISSUE");
                 console.log(response);
             }
         }
@@ -98,7 +113,9 @@ function delete_issue(pk) {
             headers: {'Authorization': 'Token ' + localStorage.getItem('apiToken')},
             dataType: 'json',
             contentType: 'application/json',
+            async :false,
             success: function (response, status) {
+                console.log("Deleted issue");
                 console.log(response);
             },
             error: function (response, status) {
@@ -107,6 +124,14 @@ function delete_issue(pk) {
         }
     );
 }
-login('admin', 'admin');
+    login('admin', 'admin');
+    view_all_issues();
+    view_all_projects();
+    view_all_issues_of_project(1);
+    create_issue('New Task', '', 1, '', '', '', 2);
+    delete_issue(41);// Это значение придётся каждый раз менять
+
+
+
 
 

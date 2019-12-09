@@ -44,6 +44,7 @@ class IssueViewSet(viewsets.ModelViewSet):
 
     def get_project_of_issue(self,pk):
         if pk:
+            print(Issue.objects.get(pk=pk).project, self.get_all_project_of_user(self.request.user))
             return Issue.objects.get(pk=pk).project
         else:
             try:
